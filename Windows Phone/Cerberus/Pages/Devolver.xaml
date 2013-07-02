@@ -1,0 +1,65 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Cerberus.Devolver"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="ITABits: Cerberus" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="Devolver" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Background="Transparent">
+            <Button Content="OK" Height="72" HorizontalAlignment="Left" Margin="145,472,0,0" Name="OKButton" VerticalAlignment="Top" Width="160" Click="OKButton_Click" />
+            <Grid Height="300" HorizontalAlignment="Left" Margin="50,70,0,0" Name="grid1" VerticalAlignment="Top" Width="350">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="175" />
+                    <ColumnDefinition Width="175" />
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Right" Name="textBlock1" Text="Nome:    " VerticalAlignment="Center" FontSize="26" Height="50"/>
+                <TextBlock Grid.Row="1" Height="50" HorizontalAlignment="Right" Name="textBlock2" Text="Data:    " VerticalAlignment="Center" FontSize="26"/>
+                <TextBlock Grid.Row="2" Height="50" HorizontalAlignment="Right" Name="textBlock3" Text="Hora:    " VerticalAlignment="Center" FontSize="26"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Height="50" HorizontalAlignment="Left" Name="nomeBox" Text="TextBox" VerticalAlignment="Center" FontSize="26" Opacity="0.7"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Left" Name="dataBox" Text="TextBox" VerticalAlignment="Center" FontSize="26" Opacity="0.7"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" Height="50" HorizontalAlignment="Left" Name="horaBox" Text="TextBox" VerticalAlignment="Center" FontSize="26" Opacity="0.7"/>
+            </Grid>
+        </Grid>
+    </Grid>
+ 
+    <!--Sample code showing usage of ApplicationBar-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>

@@ -1,0 +1,47 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="Cerberus.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="ITAbits" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="Cerberus" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" Visibility="Visible">
+            <Button Content="Pegar Emprestado" Height="80" HorizontalAlignment="Left" Margin="96,130,0,0" Name="buttonPegarEmpr" VerticalAlignment="Top" Width="269" Click="button1_Click" Visibility="Collapsed" IsEnabled="True" />
+            <Button Content="Devolver" Height="80" HorizontalAlignment="Left" Margin="96,130,0,0" Name="buttonDevolver" VerticalAlignment="Top" Width="269" Click="button2_Click" Visibility="Collapsed" IsEnabled="True" />
+            <Button Content="Ver Empréstimos" Height="80" HorizontalAlignment="Left" Margin="96,310,0,0" Name="buttonVerEmpres" VerticalAlignment="Top" Width="269" Click="button3_Click" IsEnabled="False" />
+            <StackPanel Height="240" HorizontalAlignment="Center" Margin="0,-100,0,0" Name="panelConError" VerticalAlignment="Center" Width="320" Visibility="Collapsed">
+                <TextBlock Height="60" Name="errorBlock1" Text="Erro na conexão." Width="Auto" VerticalAlignment="Center" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" FontWeight="SemiBold" />
+                <TextBlock Height="80" Name="errorBlock2" Text="Se conecte na internet e tente novamente." Width="Auto" VerticalAlignment="Center" FontSize="22" TextWrapping="Wrap" TextAlignment="Left" Margin="0" />
+                <TextBlock Height="60" Name="exceptionBlock" Text="asdf sdf asd s fwef df er  we" Width="Auto" VerticalAlignment="Center" FontSize="22" TextWrapping="Wrap" TextAlignment="Left" FontStyle="Italic" />
+            </StackPanel>
+            <StackPanel Height="240" HorizontalAlignment="Left" Margin="96,62,0,0" Name="panelPhoneName" VerticalAlignment="Top" Width="269" Visibility="Collapsed">
+                <TextBlock Height="80" Name="textBlock1" Text="Digite o nome do celular:" Width="Auto" VerticalAlignment="Center" FontSize="28" TextWrapping="Wrap" TextAlignment="Center" />
+                <TextBox Height="80" Name="textBoxName" Text="" Width="Auto" IsEnabled="True" />
+                <Button Content="OK" Height="80" Name="buttonOkName" Width="Auto" Click="buttonOkName_Click" IsEnabled="True" />
+            </StackPanel>
+            <TextBlock Height="93" HorizontalAlignment="Left" Margin="12,485,0,0" Name="PhoneNameBlock" Text="Phone Name" VerticalAlignment="Top" Width="438" TextAlignment="Center" FontSize="18" FontStyle="Italic" Opacity="0.6" TextWrapping="Wrap" />
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>
