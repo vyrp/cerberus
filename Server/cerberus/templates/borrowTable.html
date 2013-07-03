@@ -6,6 +6,7 @@
 <body>
     <h1>Hello,</h1>
     {{ user }}!
+    <hr>
     <table>
         <tr>
             <th>Borrowed</th>
@@ -20,5 +21,11 @@
         </tr>
         {% endfor %}
     </table>
+    <hr>
+    <form action="/post" method="post">
+        Add name:
+        <input name="borrower">
+        <input type="submit" value="OK">
+    </form>
 </body>
 </html>

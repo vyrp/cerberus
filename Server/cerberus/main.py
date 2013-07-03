@@ -2,6 +2,7 @@ import os
 
 import webapp2
 import jinja2
+from controllers.HttpTableHandler import HttpTableHandler
 from controllers.ViewTableHandler import ViewTableHandler
 
 _JINJA_ENVIRONMENT = jinja2.Environment(
@@ -9,7 +10,9 @@ _JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'])
 
 app = webapp2.WSGIApplication([
-    ('/', ViewTableHandler)
+    ('/', ViewTableHandler),
+    ('/get', HttpTableHandler),
+    ('/post', HttpTableHandler)
 ], debug=True)
 
 
