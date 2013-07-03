@@ -1,8 +1,7 @@
-from google.appengine.api import users
-import webapp2
-import main
-from models.Transaction import Transaction
 import cgi
+import webapp2
+from models.Transaction import Transaction
+
 
 def serialize(transactions):
     return "|".join([";".join(map(str, [t.start, t.name, t.end])) for t in transactions])
