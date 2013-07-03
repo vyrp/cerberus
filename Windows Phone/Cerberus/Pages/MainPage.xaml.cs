@@ -40,7 +40,11 @@ namespace Cerberus {
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            TestConnection();
+            // TODO: not forget to remove
+            //TestConnection();
+            checkedConnection = true;
+            CheckState();
+            // << 
             NavigationService.RemoveBackEntry();
             base.OnNavigatedTo(e);
         }
