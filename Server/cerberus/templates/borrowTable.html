@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table</title>
+</head>
+<body>
+    <h1>Hello,</h1>
+    {{ user }}!
+    <table>
+        <tr>
+            <th>Borrowed</th>
+            <th>Name</th>
+            <th>Returned</th>
+        </tr>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.start }}</td>
+            <td>{{ t.name }}</td>
+            <td>{{ t.end }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
