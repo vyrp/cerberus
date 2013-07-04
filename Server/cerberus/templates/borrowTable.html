@@ -4,28 +4,25 @@
     <title>Table</title>
 </head>
 <body>
-    <h1>Hello,</h1>
-    {{ user }}!
+    <b>Hello,</b> {{ user }}!
     <hr>
-    <table>
-        <tr>
-            <th>Borrowed</th>
-            <th>Name</th>
-            <th>Returned</th>
-        </tr>
-        {% for t in transactions %}
-        <tr>
-            <td>{{ t.start }}</td>
-            <td>{{ t.name }}</td>
-            <td>{{ t.end }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% for device in transactions %}
+        <h2>{{ device }}</h2>
+        <table>
+            <tr>
+                <th>Borrowed</th>
+                <th>Name</th>
+                <th>Returned</th>
+            </tr>
+            {% for t in transactions[device] %}
+                <tr>
+                    <td>{{ t.start }}</td>
+                    <td>{{ t.name }}</td>
+                    <td>{{ t.end }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
     <hr>
-    <form action="/post" method="post">
-        Add name:
-        <input name="borrower">
-        <input type="submit" value="OK">
-    </form>
 </body>
 </html>
