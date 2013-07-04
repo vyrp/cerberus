@@ -4,5 +4,12 @@
     <string name="app_name">Cerberus</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="loginTitle">Login</string>
+    <string name="usernameText">username</string>
+    <string name="passwordText">password</string>
+    <string name="loginButton">login</string>
+    <string name="greetingsTitle">Hello username</string>
+    <string name="borrowButton">borrow</string>
+    <string name="viewpastButton">view past</string>
 
 </resources>
