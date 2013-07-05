@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 /**
  * This class encapsulates the access to the database.
- * The access is made throug HTTP requests (GET and POST).
+ * The access is made through HTTP requests (GET and POST).
  * 
  * @author Croata
  */
@@ -38,10 +40,11 @@ public class DataBaseManager {
      * 
      * @param server The url of the server
      * @param deviceName The name of the device
+     * @throws UnsupportedEncodingException
      */
-    public DataBaseManager(String server, String deviceName) {
+    public DataBaseManager(String server, String deviceName) throws UnsupportedEncodingException {
         this.server = checkEnding(server);
-        this.deviceName = deviceName;
+        this.deviceName = URLEncoder.encode(deviceName, "UTF-8");
     }
     
     /* * Methods * */
@@ -86,8 +89,8 @@ public class DataBaseManager {
      * @throws IOException
      */
     public void createDevice(String deviceName) throws IOException {
-        this.deviceName = deviceName;
-        post("device=" + deviceName);
+        this.deviceName = URLEncoder.encode(deviceName, "UTF-8");
+        post("device=" + this.deviceName);
     }
     
     /**
@@ -100,7 +103,7 @@ public class DataBaseManager {
         if(deviceName == null)
             throw new DeviceNotSetException("No device has been set for this manager.");
         
-        post("device=" + deviceName + "&borrower=" + name);
+        post("device=" + deviceName + "&borrower=" + URLEncoder.encode(name, "UTF-8"));
     }
     
     /**

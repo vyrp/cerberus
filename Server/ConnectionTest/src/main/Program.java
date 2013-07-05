@@ -1,6 +1,7 @@
 package main;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.util.ArrayList;
 
@@ -11,14 +12,22 @@ import java.util.ArrayList;
  */
 public class Program {
     public static void main(String[] args) {
-        DataBaseManager manager = new DataBaseManager("http://localhost:8080/", "Felipe");
+        String server = "http://itabitscerberus.appspot.com/";
+        //String server = "http://localhost:8080/";
+        DataBaseManager manager;
+        try {
+            manager = new DataBaseManager(server, "ITAbits & Co.");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return;
+        }
         
         /* Choose one */
         
         //printAll(manager);
-        //createTransaction(manager, "gama");
-        //createDevice(manager, "Croata");
-        update(manager);
+        createTransaction(manager, "Olé! não.");
+        //createDevice(manager, "ITAbits & Co.");
+        //update(manager);
     }
     
     private static void printAll(DataBaseManager manager){
