@@ -3,7 +3,6 @@
 
     <string name="app_name">Cerberus</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="loginTitle">Login</string>
     <string name="usernameText">username</string>
     <string name="passwordText">password</string>
@@ -11,5 +10,9 @@
     <string name="greetingsTitle">Hello username</string>
     <string name="borrowButton">borrow</string>
     <string name="viewpastButton">view past</string>
+    <string name="descSplash">This is a loading screen</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="powered_content">POWERED BY</string>
 
 </resources>
