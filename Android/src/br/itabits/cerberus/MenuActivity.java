@@ -24,7 +24,7 @@ public class MenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 
 		sharedPref = getPreferences(Context.MODE_PRIVATE);
-		updateBorrowState();
+		//updateBorrowState();
 
 		Button borrowReturn = (Button) findViewById(R.id.button_borrow);
 
