@@ -3,16 +3,33 @@
 
     <string name="app_name">Cerberus</string>
     <string name="action_settings">Settings</string>
-    <string name="loginTitle">Login</string>
-    <string name="usernameText">username</string>
-    <string name="passwordText">password</string>
-    <string name="loginButton">login</string>
-    <string name="greetingsTitle">Hello username</string>
-    <string name="borrowButton">borrow</string>
-    <string name="viewpastButton">view past</string>
-    <string name="descSplash">This is a loading screen</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    
+    <string name="desc_splash">This is a loading screen</string>
     <string name="powered_content">POWERED BY</string>
+    
+    <string name="preference_file_key">br.itabits.cerberus.somedata</string>
+    <string name="saved_borrow_state">borrow_state</string>
+    
+    <!-- Strings related to menu -->
+    <string name="greetings_title">Hello username</string>
+    <string name="borrow_button">borrow</string>
+    <string name="view_past_button">view past</string>
+
+    <!-- Strings related to borrow/return -->
+    <string name="title_activity_borrow_return">Confirmation</string>
+    <string name="borrow_return_title">Borrowed</string>
+    <string name="borrow_return_name">name: user</string>
+    <string name="borrow_return_date">date: ---</string>
+    <string name="borrow_return_time">time: ---</string>
+    <string name="borrow_return_ok_button">OK</string>
+    
+    <!-- Strings related to borrow table -->
+    <string name="past_borrows_title">Past Borrowing</string>
+    <string name="past_back_button">back</string>
+    <string name="head_borrow_title"><b>borrowed</b></string>
+    <string name="head_name_title"><b>name</b></string>
+    <string name="head_return_title"><b>returned</b></string>
+    <string name="title_activity_loan_table">View Past</string>
+    <string name="blank_desc_table">---</string>
 
 </resources>
