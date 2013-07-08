@@ -37,5 +37,6 @@
     <string name="head_return_title"><b>returned</b></string>
     <string name="title_activity_loan_table">View Past</string>
     <string name="blank_desc_table">---</string>
+    <string name="fetching_data_table">fetching data&#8230;</string>
 
 </resources>

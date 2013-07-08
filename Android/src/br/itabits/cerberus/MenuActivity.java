@@ -17,7 +17,6 @@ import br.itabits.cerberus.borrow.BorrowReturnActivity;
 import br.itabits.cerberus.borrow.BorrowTableActivity;
 import br.itabits.cerberus.database.DataBaseManager;
 import br.itabits.cerberus.login.LoginActivity;
-import br.itabits.cerberus.network.NetworkManager;
 
 public class MenuActivity extends Activity {
 
@@ -46,58 +45,53 @@ public class MenuActivity extends Activity {
 		borrowReturn = (Button) findViewById(R.id.button_borrow);
 		loadBorrowState();
 
+
 		borrowReturn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				updateBorrowState();
 
-				NetworkManager networkManager = new NetworkManager(getApplicationContext());
-				networkManager.onStart();
-				if (networkManager.getWIFIConnected()) {
-					try {
-			            manager = new DataBaseManager(SERVER, "ITAbits & Co.");
-			        } catch (UnsupportedEncodingException e) {
-			            e.printStackTrace();
-			            return;
-			        }
-					createTransaction(manager, mEmail);
-					
-					Intent openBorrowReturn = new Intent(MenuActivity.this, BorrowReturnActivity.class);
-					String title = (borrowState.equals(AVAIABLE)) ? "Returned" : "Borrowed";
-					openBorrowReturn.putExtra(getString(R.string.title_activity_borrow_return), title);
-					openBorrowReturn.putExtra(LoginActivity.EXTRA_EMAIL, mEmail);
-					startActivity(openBorrowReturn);
-				}
-				networkManager.onDestroy();
+				Intent openBorrowReturn = new Intent(MenuActivity.this, BorrowReturnActivity.class);
+				String title = (borrowState.equals(AVAIABLE)) ? "Returned" : "Borrowed";
+				openBorrowReturn.putExtra(getString(R.string.title_activity_borrow_return), title);
+				openBorrowReturn.putExtra(LoginActivity.EXTRA_EMAIL, mEmail);
+				startActivity(openBorrowReturn);
+
 			}
 		});
+		
+
+		DataBaseManager manager;
+        try {
+            manager = new DataBaseManager(SERVER, "ITAbits & Co.");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return;
+        }
 
 		Button viewPastButton = (Button) findViewById(R.id.button_view_past);
 		viewPastButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				NetworkManager networkManager = new NetworkManager(getApplicationContext());
-				networkManager.onStart();
-				if (networkManager.getWIFIConnected()) {
-					Intent openViewPast = new Intent(MenuActivity.this, BorrowTableActivity.class);
-					startActivity(openViewPast);
-				}
-				networkManager.onDestroy();
+				
+				Intent openViewPast = new Intent(MenuActivity.this, BorrowTableActivity.class);
+				startActivity(openViewPast);
+
 			}
 		});
 	}
 
-    private static void createTransaction(DataBaseManager manager, String name){
-        try {
-            manager.put(name);
-            System.out.println("Created.");
-        } catch(ConnectException e){
-            System.out.println("\n" + e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
+	private static void createTransaction(DataBaseManager manager, String name) {
+		try {
+			manager.put(name);
+			System.out.println("Created.");
+		} catch (ConnectException e) {
+			System.out.println("\n" + e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void loadBorrowState() {
 		borrowState = sharedPref.getInt(getString(R.string.saved_borrow_state), AVAIABLE);
 		if (borrowState.equals(AVAIABLE)) {
