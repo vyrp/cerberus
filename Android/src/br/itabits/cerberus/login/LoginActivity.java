@@ -12,22 +12,25 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
+import br.itabits.cerberus.network.NetworkManager;
+import br.itabits.cerberus.network.NetworkResponse;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements NetworkResponse {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] MY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world","a@a:a" };
+			"itabits@ita.br:xupadoente", "a@a:a" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -46,15 +49,24 @@ public class LoginActivity extends Activity {
 	// UI references.
 	private EditText mEmailView;
 	private EditText mPasswordView;
+	private Button mSignInButton;
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+
+	// Network validation
+	NetworkManager networkManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
+
+		// Set up the manager of network connection
+		networkManager = new NetworkManager(getApplicationContext());
+		networkManager.onCreate(savedInstanceState);
+		networkManager.addResponse(this);
 
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
@@ -79,13 +91,25 @@ public class LoginActivity extends Activity {
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
-		findViewById(R.id.sign_in_button).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						attemptLogin();
-					}
-				});
+		mSignInButton = (Button) findViewById(R.id.sign_in_button);
+		mSignInButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				attemptLogin();
+			}
+		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		networkManager.onStart();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		networkManager.onDestroy();
 	}
 
 	/**
@@ -190,7 +214,7 @@ public class LoginActivity extends Activity {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
-			//		 if possible with google or facebook account
+			// if possible with google or facebook account
 
 			try {
 				// Simulate network access.
@@ -216,7 +240,8 @@ public class LoginActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
-				Intent openBorrow = new Intent(LoginActivity.this,MenuActivity.class);
+				Intent openBorrow = new Intent(LoginActivity.this,
+						MenuActivity.class);
 				startActivity(openBorrow);
 				finish();
 			} else {
@@ -231,5 +256,19 @@ public class LoginActivity extends Activity {
 			mAuthTask = null;
 			showProgress(false);
 		}
+	}
+
+	@Override
+	public void onChangesDetected(boolean active) {
+		View focusView = null;
+		// Check for a valid network connection.
+		if (!active) {
+			mSignInButton.setError(getString(R.string.connection_error));
+			focusView = mSignInButton;
+			focusView.requestFocus();
+		} else {
+			mSignInButton.setError(null);
+		}
+		findViewById(R.id.sign_in_button).setClickable(active);
 	}
 }

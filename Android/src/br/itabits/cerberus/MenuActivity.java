@@ -23,7 +23,7 @@ public class MenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-
+		
 		sharedPref = getPreferences(Context.MODE_PRIVATE);
 
 		borrowReturn = (Button) findViewById(R.id.button_borrow);
