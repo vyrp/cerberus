@@ -10,8 +10,14 @@
     <string name="preference_file_key">br.itabits.cerberus.somedata</string>
     <string name="saved_borrow_state">borrow_state</string>
     
+   
+    <!-- General strings -->
+    <string name="name"> name:  </string>
+    <string name="date"> date:  </string>
+    <string name="time"> time:  </string>
+    
     <!-- Strings related to menu -->
-    <string name="greetings_title">Hello username</string>
+    <string name="greetings_title">Hello <i>username</i></string>
     <string name="borrow_button">borrow</string>
     <string name="view_past_button">view past</string>
 

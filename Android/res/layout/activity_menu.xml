@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:text="@string/view_past_button" />
+                android:text="@string/view_past_button"/>
         </LinearLayout>
     </ScrollView>
 

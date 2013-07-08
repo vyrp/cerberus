@@ -211,6 +211,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	 * the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
@@ -242,6 +243,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 			if (success) {
 				Intent openBorrow = new Intent(LoginActivity.this,
 						MenuActivity.class);
+				
+				openBorrow.putExtra(EXTRA_EMAIL, mEmail);
 				startActivity(openBorrow);
 				finish();
 			} else {
@@ -263,12 +266,17 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		View focusView = null;
 		// Check for a valid network connection.
 		if (!active) {
+			// There was an error; 
+			// don't allow sign in without WIFIconn
 			mSignInButton.setError(getString(R.string.connection_error));
+			mSignInButton.setFocusableInTouchMode(true);
 			focusView = mSignInButton;
 			focusView.requestFocus();
 		} else {
+			// reset error
 			mSignInButton.setError(null);
+			mSignInButton.setFocusableInTouchMode(false);
 		}
-		findViewById(R.id.sign_in_button).setClickable(active);
+		mSignInButton.setClickable(active);
 	}
 }

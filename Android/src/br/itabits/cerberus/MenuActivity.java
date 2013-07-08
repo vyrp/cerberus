@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import br.itabits.cerberus.borrow.BorrowReturnActivity;
 import br.itabits.cerberus.borrow.BorrowTableActivity;
+import br.itabits.cerberus.login.LoginActivity;
 
 public class MenuActivity extends Activity {
 
@@ -18,14 +20,21 @@ public class MenuActivity extends Activity {
 	private SharedPreferences sharedPref;
 	private Integer borrowState;
 	private Button borrowReturn;
+	
+	private String mEmail;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 		
+		mEmail = getIntent().getStringExtra(LoginActivity.EXTRA_EMAIL);
+		
 		sharedPref = getPreferences(Context.MODE_PRIVATE);
 
+		TextView title = (TextView) findViewById(R.id.greetings);
+		title.setText(title.getText().toString().replace("username", mEmail));
+		
 		borrowReturn = (Button) findViewById(R.id.button_borrow);
 		loadBorrowState();
 
@@ -38,6 +47,7 @@ public class MenuActivity extends Activity {
 						BorrowReturnActivity.class);
 				String title = (borrowState.equals(AVAIABLE)) ? "Returned" : "Borrowed";
 				openBorrowReturn.putExtra(getString(R.string.title_activity_borrow_return), title);
+				openBorrowReturn.putExtra(LoginActivity.EXTRA_EMAIL, mEmail);				
 				startActivity(openBorrowReturn);
 			}
 		});
@@ -46,9 +56,9 @@ public class MenuActivity extends Activity {
 				new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						Intent openBorrowReturn = new Intent(MenuActivity.this,
+						Intent openViewPast = new Intent(MenuActivity.this,
 								BorrowTableActivity.class);
-						startActivity(openBorrowReturn);
+						startActivity(openViewPast);
 					}
 				});
 	}
