@@ -70,9 +70,6 @@ public class NetworkManager{
     // Refreshes the display if the network connection allow it.
     public void onStart() {
         updateConnectedFlags();
-        if (refreshDisplay) {
-            loadPage();
-        }
     }
 
     public void onDestroy() {
@@ -80,7 +77,11 @@ public class NetworkManager{
             context.unregisterReceiver(receiver);
         }
     }
-
+    
+    public boolean getWIFIConnected(){
+    	return wifiConnected;
+    }
+    
     // Checks the network connection and sets the wifiConnected
     // variables accordingly.
     private void updateConnectedFlags() {
@@ -92,17 +93,6 @@ public class NetworkManager{
             wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
         } else {
             wifiConnected = false;
-        }
-    }
-
-    // Uses AsyncTask subclass to prevent network operations from
-    // causing a delay that results in a poor user experience.
-    private void loadPage() {
-        if (wifiConnected ){
-            // AsyncTask subclass
-            //new DownloadXmlTask().execute(URL);
-        } else {
-        	Toast.makeText(context, R.string.connection_error, Toast.LENGTH_SHORT).show();
         }
     }
 
