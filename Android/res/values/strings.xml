@@ -20,7 +20,7 @@
     <string name="greetings_title">Hello <i>username</i></string>
     <string name="borrow_button">borrow</string>
     <string name="view_past_button">view past</string>
-
+    
     <!-- Strings related to borrow/return -->
     <string name="title_activity_borrow_return">Confirmation</string>
     <string name="borrow_return_title">Borrowed</string>

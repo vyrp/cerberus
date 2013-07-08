@@ -133,7 +133,7 @@ public class NetworkManager{
         }
     }
     
-    public void addResponse(NetworkResponse response){
+    public void setResponse(NetworkResponse response){
     	this.response = response;
     }
 }

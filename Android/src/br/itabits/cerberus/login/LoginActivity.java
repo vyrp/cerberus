@@ -66,7 +66,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		// Set up the manager of network connection
 		networkManager = new NetworkManager(getApplicationContext());
 		networkManager.onCreate(savedInstanceState);
-		networkManager.addResponse(this);
+		networkManager.setResponse(this);
 
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);

@@ -21,6 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
 import br.itabits.cerberus.database.DataBaseManager;
 import br.itabits.cerberus.util.Transaction;
@@ -94,22 +95,16 @@ public class BorrowTableActivity extends Activity {
 		}
 	}
 
-	// Uses AsyncTask to create a task away from the main UI thread. This task
-	// takes a
-	// URL string and uses it to create an HttpUrlConnection. Once the
-	// connection
-	// has been established, the AsyncTask downloads the contents of the
-	// dataserver as
-	// an InputStream. Finally, the InputStream is converted into a string,
-	// which is
+	// Uses AsyncTask to create a task away from the main UI thread. This task takes a
+	// URL string and uses it to create an HttpUrlConnection. Once the connection
+	// has been established, the AsyncTask downloads the contents of the dataserver as
+	// an InputStream. Finally, the InputStream is converted into a string, which is
 	// modeled into a table in the UI by the AsyncTask's onPostExecute method.
-	private class DownloadDataTask extends AsyncTask<String, Void, String> {
+	private class DownloadDataTask extends AsyncTask<Void, Void, String> {
 		@Override
-		protected String doInBackground(String... urls) {
+		protected String doInBackground(Void... params) {
 			try {
-				DataBaseManager manager = new DataBaseManager(SERVER,"Test Device");
-				// TODO
-//				DataBaseManager manager = new DataBaseManager(SERVER, android.os.Build.MODEL);
+				DataBaseManager manager = new DataBaseManager(SERVER,MenuActivity.DEVICE_NAME);
 				String result = null;
 				try {
 					result = manager.getAll();
@@ -167,8 +162,7 @@ public class BorrowTableActivity extends Activity {
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mTableView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
+							mTableView.setVisibility(show ? View.GONE : View.VISIBLE);
 						}
 					});
 		} else {
