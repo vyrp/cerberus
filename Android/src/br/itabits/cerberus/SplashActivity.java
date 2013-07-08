@@ -33,7 +33,7 @@ public class SplashActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case STOPSPLASH:
-				Intent openLogin = new Intent(SplashActivity.this,LoginActivity.class);
+				Intent openLogin = new Intent(SplashActivity.this,MenuActivity.class);
 				startActivity(openLogin);
 				finish();
 				break;
