@@ -15,9 +15,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,24 +31,23 @@ public class BorrowTableActivity extends Activity {
 	private static final int pad = 5;
 	public static final String SERVER = "http://itabitscerberus.appspot.com/";
 	
-	
-	private View mTableView;
-	private View mTableStatusView;
+	private View tableWrapper;
+	private View tableStatusView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_borrow_table);
 		
-		mTableView = findViewById(R.id.borrow_return_table);
-		mTableStatusView = findViewById(R.id.borrow_table_status);
+		tableStatusView = findViewById(R.id.borrow_table_status);
+		tableWrapper = findViewById(R.id.borrow_table_wrapper);
+		View tableContainer = findViewById(R.id.borrow_table_container);
 		
-		findViewById(R.id.button_back).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
+		if(tableWrapper.getWidth() > 800){
+		    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
+		    params.gravity = Gravity.CENTER_HORIZONTAL;
+		    tableContainer.setLayoutParams(params);
+		}
 
 		showProgress(true);
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -60,38 +60,38 @@ public class BorrowTableActivity extends Activity {
 	}
 
 	private void printTable(ArrayList<Transaction> transactions) {
-		TableLayout mTableLayout = (TableLayout) findViewById(R.id.borrow_table);
+		TableLayout borrowTable = (TableLayout) findViewById(R.id.borrow_table);
 
 		for (Transaction transaction : transactions) {
-			TableRow mRow = new TableRow(this);
+			TableRow row = new TableRow(this);
 			TextView borrowed = new TextView(this);
 			TextView name = new TextView(this);
 			TextView returned = new TextView(this);
 
-			TableRow.LayoutParams params = new TableRow.LayoutParams();
-			params.span = 1;
+			row.setLayoutParams(new LayoutParams(800, LayoutParams.WRAP_CONTENT));
 
-			mRow.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
-			borrowed.setBackgroundResource(R.drawable.cell_shape);
-			borrowed.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			borrowed.setLayoutParams(new TableRow.LayoutParams(300, LayoutParams.WRAP_CONTENT));
 			borrowed.setPadding(pad, pad, pad, pad);
+			borrowed.setGravity(Gravity.CENTER_HORIZONTAL);
+			borrowed.setWidth(300);
 			borrowed.setText(transaction.getStart());
-			mRow.addView(borrowed, params);
+			row.addView(borrowed);
 
-			name.setBackgroundResource(R.drawable.cell_shape);
-			name.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			name.setLayoutParams(new TableRow.LayoutParams(200, LayoutParams.WRAP_CONTENT));
 			name.setPadding(pad, pad, pad, pad);
+			name.setGravity(Gravity.CENTER_HORIZONTAL);
+			borrowed.setWidth(200);
 			name.setText(transaction.getName());
-			mRow.addView(name, params);
+			row.addView(name);
 
-			returned.setBackgroundResource(R.drawable.cell_shape);
-			returned.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			returned.setLayoutParams(new TableRow.LayoutParams(300, LayoutParams.WRAP_CONTENT));
 			returned.setPadding(pad, pad, pad, pad);
+			returned.setGravity(Gravity.CENTER_HORIZONTAL);
+			borrowed.setWidth(300);
 			returned.setText(transaction.getEnd());
-			mRow.addView(returned, params);
+			row.addView(returned);
 
-			mTableLayout.addView(mRow);
+			borrowTable.addView(row);
 		}
 	}
 
@@ -142,34 +142,33 @@ public class BorrowTableActivity extends Activity {
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
-					android.R.integer.config_shortAnimTime);
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-			mTableStatusView.setVisibility(View.VISIBLE);
-			mTableStatusView.animate().setDuration(shortAnimTime)
+			tableStatusView.setVisibility(View.VISIBLE);
+			tableStatusView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mTableStatusView.setVisibility(show ? View.VISIBLE
+							tableStatusView.setVisibility(show ? View.VISIBLE
 									: View.GONE);
 						}
 					});
 
-			mTableView.setVisibility(View.VISIBLE);
-			mTableView.animate().setDuration(shortAnimTime)
+			tableWrapper.setVisibility(View.VISIBLE);
+			tableWrapper.animate().setDuration(shortAnimTime)
 					.alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mTableView.setVisibility(show ? View.GONE : View.VISIBLE);
+							tableWrapper.setVisibility(show ? View.GONE : View.VISIBLE);
 						}
 					});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
-			mTableStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mTableView.setVisibility(show ? View.GONE : View.VISIBLE);
+			tableStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			tableWrapper.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 }

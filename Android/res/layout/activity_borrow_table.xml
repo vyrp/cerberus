@@ -31,81 +31,92 @@
 
     <!-- Borrow Table -->
 
-    <ScrollView
-        android:id="@+id/borrow_return_table"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+    <HorizontalScrollView
+        android:id="@+id/borrow_table_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:measureAllChildren="true" >
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+        <LinearLayout
+            android:id="@+id/borrow_table_container"
+            android:layout_width="800dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+	
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="15dp"
+	            android:text="@string/past_borrows_title"
+	            android:textAppearance="?android:attr/textAppearanceLarge" />
+			
+	        
 
-            <LinearLayout
-                style="@style/LoginFormContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#aab8d2"
-                android:orientation="vertical" >
+	        <LinearLayout
+	            android:layout_width="800dp"
+	            android:layout_height="wrap_content"
+	            android:layout_marginTop="10dp"
+	            android:layout_gravity="center_horizontal"
+	            android:gravity="center_horizontal"
+	            android:orientation="horizontal" >
+	
+	            <TextView
+	                android:layout_width="300dp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal"
+	                android:padding="5dp"
+	                android:text="@string/head_borrow_title"
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	            <TextView
+	                android:layout_width="200dp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal"
+	                android:padding="5dp"
+	                android:text="@string/head_name_title"
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	            <TextView
+	                android:layout_width="300dp"
+	                android:layout_height="wrap_content"
+	                android:gravity="center_horizontal"
+	                android:padding="5dp"
+	                android:text="@string/head_return_title"
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+	        </LinearLayout>
+	        
+	        <TableRow
+	            android:layout_height="1dp"
+	            android:background="#BDBDBD"
+	            android:layout_width="800dp" >
+			    <TextView
+			        android:layout_height="1dp" 
+			    	android:layout_width="fill_parent"
+			    	android:text="" />
+			</TableRow>
+			
+	        <ScrollView
+	            android:layout_width="800dp"
+	            android:layout_height="fill_parent" >
+	
+	            <TableLayout
+	                android:id="@+id/borrow_table"
+	                android:layout_width="800dp"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center|top"
+	                android:layout_marginTop="0dp" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/past_borrows_title"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+	                <TableRow
+	                    android:id="@+id/tableRow1"
+	                    android:layout_width="800dp"
+	                    android:layout_height="wrap_content" >
+	                </TableRow>
 
-                <TableLayout
-                    android:id="@+id/borrow_table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" >
-
-                    <TableRow
-                        android:id="@+id/table_row_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/cell_shape"
-                            android:padding="5dp"
-                            android:text="@string/head_borrow_title"
-                            android:textAppearance="?android:attr/textAppearanceMedium" >
-                        </TextView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/cell_shape"
-                            android:padding="5dp"
-                            android:text="@string/head_name_title"
-                            android:textAppearance="?android:attr/textAppearanceMedium" >
-                        </TextView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/cell_shape"
-                            android:padding="5dp"
-                            android:text="@string/head_return_title"
-                            android:textAppearance="?android:attr/textAppearanceMedium" >
-                        </TextView>
-                    </TableRow>
-
-                    <TableRow android:id="@+id/tableRowNext" >
-                    </TableRow>
-                </TableLayout>
-
-                <Button
-                    android:id="@+id/button_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/past_back_button" />
-            </LinearLayout>
-        </HorizontalScrollView>
-    </ScrollView>
+	            </TableLayout>
+	        </ScrollView>
+	
+	    </LinearLayout>
+    </HorizontalScrollView>
 
 </merge>
