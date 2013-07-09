@@ -32,7 +32,7 @@
     <string name="borrow_return_ok_button">OK</string>
     
     <!-- Strings related to borrow table -->
-    <string name="past_borrows_title">Past Borrowing</string>
+    <string name="past_borrows_title">Past Borrowings</string>
     <string name="past_back_button">back</string>
     <string name="head_borrow_title"><b>borrowed</b></string>
     <string name="head_name_title"><b>name</b></string>
