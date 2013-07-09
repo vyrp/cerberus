@@ -15,14 +15,21 @@ import br.itabits.cerberus.login.LoginActivity;
 import br.itabits.cerberus.util.SystemUiHider;
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
+ * A splash screen is an image that appears while a game or program is loading.
+ * So this class illustrates the app image and the developer group.  
+ * 
+ * P.S.: this class was based in an example full-screen activity of android sdk 
+ * that shows and hides the system UI (i.e. status bar and navigation/system bar)
+ * with user interaction.
  * 
  * @see SystemUiHider
+ * @author Marcelo
  */
 public class SplashActivity extends Activity {
 	
+	/* * Consts * */
 	
+	// state at which the screen should fade out 
 	private static final int STOPSPLASH = 0;
 	// time in milliseconds
 	private static final long SPLASHTIME = 1000;
@@ -33,17 +40,22 @@ public class SplashActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
+			// the message this handler receive tells it to start a new activity
 			switch (msg.what) {
 			case STOPSPLASH:
+				// look for the field in the saved preferences file that indicates the borrow state
 				SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_name),Context.MODE_PRIVATE);
-				Integer borrowState = sharedPref.getInt(getString(R.string.saved_borrow_state), MenuActivity.AVAIABLE);
-				if (borrowState.equals(MenuActivity.AVAIABLE)) {
+				Integer borrowState = sharedPref.getInt(getString(R.string.saved_borrow_state), MenuActivity.AVAILABLE);
+				if (borrowState.equals(MenuActivity.AVAILABLE)) {
+					// the mobile is available, so the user must login to borrow it
 					Intent openLogin = new Intent(SplashActivity.this,LoginActivity.class);
 					startActivity(openLogin);
 				} else {
+					// someone has already taken the mobile, so goto menu
 					Intent openMenu = new Intent(SplashActivity.this,MenuActivity.class);
 					startActivity(openMenu);
 				}
+				// there's no need to show the splash again, so let's close it
 				finish();
 				break;
 			}

@@ -22,7 +22,7 @@ public class BorrowReturnActivity extends Activity {
 		
 		Intent intent = getIntent();
 		String title = intent.getStringExtra(getString(R.string.title_activity_borrow_return));
-		String mEmail = intent.getStringExtra(LoginActivity.EXTRA_EMAIL);
+		String mEmail = intent.getStringExtra(LoginActivity.EXTRA_USER_ID);
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss",Locale.ENGLISH);

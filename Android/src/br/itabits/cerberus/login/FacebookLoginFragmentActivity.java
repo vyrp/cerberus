@@ -1,19 +1,3 @@
-/**
- * Copyright 2010-present Facebook.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package br.itabits.cerberus.login;
 
 import android.content.Intent;
@@ -30,6 +14,16 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.UserSettingsFragment;
 
+/**
+ * As an alternative of log in, the user can choose to validate
+ * his ID by logging in with a facebook account.<br>
+ * This class contain references to facebook SDK and create fragments
+ * that interact with the facebook API to generate a valid authentication.
+ * <br><br>
+ * (this class was based on a facebook SDK sample)
+ * @author Marcelo
+ *
+ */
 public class FacebookLoginFragmentActivity extends FragmentActivity {
 	private UserSettingsFragment userSettingsFragment;
 
@@ -58,18 +52,18 @@ public class FacebookLoginFragmentActivity extends FragmentActivity {
 
 								// Uses the name of the facebook to the next activity
 								Intent openBorrow = new Intent(FacebookLoginFragmentActivity.this, MenuActivity.class);
-								openBorrow.putExtra(LoginActivity.EXTRA_EMAIL, user.getName());
+								openBorrow.putExtra(LoginActivity.EXTRA_USER_ID, user.getName());
 								startActivity(openBorrow);
 
 								// time to see the picture...
 								try {
 									Thread.sleep(2000);
-									// closes both login and facebook login
-									finish();
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								// closes both login and facebook login
+								finish();
 							}
 						}
 					});
@@ -85,7 +79,11 @@ public class FacebookLoginFragmentActivity extends FragmentActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 	}
-
+	
+	/**
+	 * In each log in session, the user must be request user and password, 
+	 * so after the session, the user is disconnected.
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

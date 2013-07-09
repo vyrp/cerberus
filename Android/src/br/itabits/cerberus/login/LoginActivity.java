@@ -22,9 +22,17 @@ import br.itabits.cerberus.network.NetworkManager;
 import br.itabits.cerberus.network.NetworkResponse;
 
 /**
- * Activity which displays a login screen to the user, offering registration as well.
+ * Activity which displays a login screen to the user, offering registration as well.<br>
+ * Basically, there are two types of login:<br>
+ * - one local and easy connection that requires an email and the local password
+ * - a connection based on a login with Facebook account
+ * 
+ * @author Marcelo
  */
 public class LoginActivity extends Activity implements NetworkResponse {
+	
+	/* * Constants * */
+	
 	/**
 	 * A Conscious Discipline authentication store containing known user names and passwords.
 	 */
@@ -33,7 +41,10 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	/**
 	 * The default email to populate the email field with.
 	 */
-	public static final String EXTRA_EMAIL = "br.itabits.cerberus.extra.EMAIL";
+	public static final String EXTRA_USER_ID = "br.itabits.cerberus.extra.EMAIL";
+	/**
+	 * The default field to know whether the connection with facebook is OK.
+	 */
 	public static final String EXTRA_FACEBOOK = "br.itabits.cerberus.extra.FACEBOOK";
 
 	/**
@@ -41,9 +52,17 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	 */
 	private UserLoginTask mAuthTask = null;
 
+	/**
+	 * When the login will be done with facebook.
+	 */
 	private static final int FACEBOOK_REQUEST = 1;
+	/**
+	 * The login with facebook account was successful.
+	 */
 	public static final int FACEBOOK_SUCCESS = 23;
 
+	/* * Fields * */
+	
 	// Values for email and password at the time of the login attempt.
 	private String mEmail;
 	private String mPassword;
@@ -59,6 +78,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	// Network validation
 	NetworkManager networkManager;
 
+	/* * Activity Methods * */
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,7 +92,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		networkManager.setResponse(this);
 
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
+		mEmail = getIntent().getStringExtra(EXTRA_USER_ID);
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
 
@@ -130,6 +151,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		networkManager.onDestroy();
 	}
 
+	/* * Methods * */
+	
 	/**
 	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email,
 	 * missing fields, etc.), the errors are presented and no actual login attempt is made.
@@ -182,6 +205,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		}
 	}
 
+	// Private Methods
+	
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -218,8 +243,13 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		}
 	}
 
+	/* * * * AssyncTask * * * */
+	
 	/**
-	 * Represents an asynchronous login/registration task used to authenticate the user.
+	 * Represents an asynchronous login/registration task used to 
+	 * authenticate the user locally and generate a ID.
+	 * 
+	 * @author Marcelo
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -252,7 +282,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 			if (success) {
 				Intent openBorrow = new Intent(LoginActivity.this, MenuActivity.class);
 				// put the identification by email to the program
-				openBorrow.putExtra(EXTRA_EMAIL, mEmail);
+				openBorrow.putExtra(EXTRA_USER_ID, mEmail);
 				startActivity(openBorrow);
 				finish();
 			} else {
