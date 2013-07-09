@@ -43,7 +43,7 @@ public class BorrowTableActivity extends Activity {
 		tableWrapper = findViewById(R.id.borrow_table_wrapper);
 		View tableContainer = findViewById(R.id.borrow_table_container);
 		
-		if(tableWrapper.getWidth() > 800){
+		if(tableWrapper.getWidth() > 800) {
 		    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
 		    params.gravity = Gravity.CENTER_HORIZONTAL;
 		    tableContainer.setLayoutParams(params);
