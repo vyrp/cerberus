@@ -22,15 +22,13 @@ import br.itabits.cerberus.network.NetworkManager;
 import br.itabits.cerberus.network.NetworkResponse;
 
 /**
- * Activity which displays a login screen to the user, offering registration as
- * well.
+ * Activity which displays a login screen to the user, offering registration as well.
  */
 public class LoginActivity extends Activity implements NetworkResponse {
 	/**
 	 * A Conscious Discipline authentication store containing known user names and passwords.
 	 */
-	private static final String[] MY_CREDENTIALS = new String[] {
-			"itabits@ita.br:xupadoente", "a@a:a" };
+	private static final String[] MY_CREDENTIALS = new String[] { "itabits@ita.br:xupadoente", "a@a:a" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -78,18 +76,16 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		mEmailView.setText(mEmail);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
+		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+				if (id == R.id.login || id == EditorInfo.IME_NULL) {
+					attemptLogin();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
@@ -102,26 +98,26 @@ public class LoginActivity extends Activity implements NetworkResponse {
 				attemptLogin();
 			}
 		});
-		
+
 		findViewById(R.id.buttonLoginFragment).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-                Intent openFacebookLogin = new Intent(LoginActivity.this, FacebookLoginFragmentActivity.class);
-                startActivityForResult(openFacebookLogin, FACEBOOK_REQUEST);
+				Intent openFacebookLogin = new Intent(LoginActivity.this, FacebookLoginFragmentActivity.class);
+				startActivityForResult(openFacebookLogin, FACEBOOK_REQUEST);
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == FACEBOOK_REQUEST && data != null){
+		if (requestCode == FACEBOOK_REQUEST && data != null) {
 			int value = data.getIntExtra(EXTRA_FACEBOOK, 0);
-			if(value== FACEBOOK_SUCCESS)
+			if (value == FACEBOOK_SUCCESS)
 				finish();
 		}
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -135,9 +131,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	}
 
 	/**
-	 * Attempts to sign in or register the account specified by the login form.
-	 * If there are form errors (invalid email, missing fields, etc.), the
-	 * errors are presented and no actual login attempt is made.
+	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email,
+	 * missing fields, etc.), the errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
 		if (mAuthTask != null) {
@@ -196,28 +191,23 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
-					android.R.integer.config_shortAnimTime);
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 			mLoginStatusView.setVisibility(View.VISIBLE);
-			mLoginStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
+			mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
+							mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 						}
 					});
 
 			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
+			mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
+							mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 						}
 					});
 		} else {
@@ -229,29 +219,26 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	}
 
 	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
+	 * Represents an asynchronous login/registration task used to authenticate the user.
 	 */
 	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-			// if possible with google or facebook account
 
 			try {
 				// Simulate network access.
-				Thread.sleep(2000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				return false;
 			}
 
 			for (String credential : MY_CREDENTIALS) {
 				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
+
+				// return true if the password matches.
+				if (pieces[1].equals(mPassword))
+					return true;
 			}
 
 			return false;
@@ -263,15 +250,13 @@ public class LoginActivity extends Activity implements NetworkResponse {
 			showProgress(false);
 
 			if (success) {
-				Intent openBorrow = new Intent(LoginActivity.this,
-						MenuActivity.class);
-				
+				Intent openBorrow = new Intent(LoginActivity.this, MenuActivity.class);
+				// put the identification by email to the program
 				openBorrow.putExtra(EXTRA_EMAIL, mEmail);
 				startActivity(openBorrow);
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}
@@ -288,7 +273,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		View focusView = null;
 		// Check for a valid network connection.
 		if (!active) {
-			// There was an error; 
+			// There was an error;
 			// don't allow sign in without WIFIconn
 			mSignInButton.setError(getString(R.string.connection_error));
 			mSignInButton.setFocusableInTouchMode(true);

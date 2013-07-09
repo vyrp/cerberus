@@ -2,7 +2,9 @@ package br.itabits.cerberus;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,8 +35,15 @@ public class SplashActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case STOPSPLASH:
-				Intent openLogin = new Intent(SplashActivity.this,LoginActivity.class);
-				startActivity(openLogin);
+				SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_name),Context.MODE_PRIVATE);
+				Integer borrowState = sharedPref.getInt(getString(R.string.saved_borrow_state), MenuActivity.AVAIABLE);
+				if (borrowState.equals(MenuActivity.AVAIABLE)) {
+					Intent openLogin = new Intent(SplashActivity.this,LoginActivity.class);
+					startActivity(openLogin);
+				} else {
+					Intent openMenu = new Intent(SplashActivity.this,MenuActivity.class);
+					startActivity(openMenu);
+				}
 				finish();
 				break;
 			}

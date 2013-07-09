@@ -23,8 +23,8 @@ import br.itabits.cerberus.login.LoginActivity;
 
 public class MenuActivity extends Activity {
 
-	private static final int AVAIABLE = 0;
-	private static final int BORROWED = 1;
+	public static final int AVAIABLE = 0;
+	public static final int BORROWED = 1;
 	private static final int UNREGISTERED = 0;
 	private static final int REGISTERED = 1;
 	private SharedPreferences sharedPref;
@@ -36,6 +36,7 @@ public class MenuActivity extends Activity {
 	private static final String SERVER = "http://itabitscerberus.appspot.com/";
 	public static final String DEVICE_NAME = "ITAbits_" + android.os.Build.MODEL + "_" + android.os.Build.MANUFACTURER;
 	private static final String DEVICE_REGISTERED_STATE = "br.itabits.cerberus.registered";
+	private static final String LAST_USER = "br.itabits.cerberus.last_user";
 	DataBaseManager manager;
 
 	@Override
@@ -44,8 +45,10 @@ public class MenuActivity extends Activity {
 		setContentView(R.layout.activity_menu);
 
 		mEmail = getIntent().getStringExtra(LoginActivity.EXTRA_EMAIL);
-
-		sharedPref = getPreferences(Context.MODE_PRIVATE);
+		sharedPref = getSharedPreferences(getString(R.string.app_name),Context.MODE_PRIVATE);
+		if(mEmail == null){
+			mEmail = sharedPref.getString(LAST_USER, "unknow");
+		}
 		
 		TextView title = (TextView) findViewById(R.id.greetings);
 		title.setText(title.getText().toString().replace("username", mEmail));
@@ -116,6 +119,7 @@ public class MenuActivity extends Activity {
 			editor.putInt(getString(R.string.saved_borrow_state), AVAIABLE);
 		} else {
 			editor.putInt(getString(R.string.saved_borrow_state), BORROWED);
+			editor.putString(LAST_USER, mEmail);
 		}
 		editor.commit();
 	}
