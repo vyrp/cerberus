@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
 
@@ -31,54 +30,69 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.UserSettingsFragment;
 
-public class FacebookLoginFragmentActivity extends FragmentActivity{
+public class FacebookLoginFragmentActivity extends FragmentActivity {
 	private UserSettingsFragment userSettingsFragment;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.login_fragment_activity);
+		setContentView(R.layout.login_fragment_activity);
+		
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		userSettingsFragment = (UserSettingsFragment) fragmentManager.findFragmentById(R.id.login_fragment);
+		userSettingsFragment.setSessionStatusCallback(new Session.StatusCallback() {
+			@Override
+			public void call(Session session, SessionState state, Exception exception) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-      
-        userSettingsFragment = (UserSettingsFragment) fragmentManager.findFragmentById(R.id.login_fragment);
-        userSettingsFragment.clearPermissions();
-        userSettingsFragment.setSessionStatusCallback(new Session.StatusCallback() {
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                Log.d("LoginUsingLoginFragmentActivity", String.format("New session state: %s", state.toString()));
-                if(session.isOpened()){
-                	 // make request to the /me API
-                    Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-                      // callback after Graph API response with user object
-                      @Override
-                      public void onCompleted(GraphUser user, Response response) {
-                        if (user != null) {
-                        	// deliver the result to close LoginActivity
-            				Intent returnIntent = new Intent();
-            				returnIntent.putExtra(LoginActivity.EXTRA_FACEBOOK, LoginActivity.FACEBOOK_SUCCESS);
-            				setResult(RESULT_OK, returnIntent);
+				if (session.isOpened()) {
+					// make request to the /me API
+					Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+						// callback after Graph API response with user object
+						@Override
+						public void onCompleted(GraphUser user, Response response) {
+							if (user != null) {
+								// deliver the result to close LoginActivity
+								Intent returnIntent = new Intent();
+								returnIntent.putExtra(LoginActivity.EXTRA_FACEBOOK, LoginActivity.FACEBOOK_SUCCESS);
+								setResult(RESULT_OK, returnIntent);
 
-                        	// Uses the name of the facebook to the next activity
-            				Intent openBorrow = new Intent(FacebookLoginFragmentActivity.this,	MenuActivity.class);
-            				openBorrow.putExtra(LoginActivity.EXTRA_EMAIL, user.getName());
-            				startActivity(openBorrow);
-            				
-            				// closes both login and facebook login
-            				finish();
-                        }
-                      }
-                    });
-                }
-            }
-        });
-    }
+								// Uses the name of the facebook to the next activity
+								Intent openBorrow = new Intent(FacebookLoginFragmentActivity.this, MenuActivity.class);
+								openBorrow.putExtra(LoginActivity.EXTRA_EMAIL, user.getName());
+								startActivity(openBorrow);
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        userSettingsFragment.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-        
-    }
+								// time to see the picture...
+								try {
+									Thread.sleep(2000);
+									// closes both login and facebook login
+									finish();
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						}
+					});
+				}
 
+			}
+		});
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		userSettingsFragment.onActivityResult(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		Session mSession = Session.getActiveSession();
+		if (mSession != null) {
+			mSession.closeAndClearTokenInformation();
+		}
+	}
 }

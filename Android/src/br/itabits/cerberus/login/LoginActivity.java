@@ -27,8 +27,7 @@ import br.itabits.cerberus.network.NetworkResponse;
  */
 public class LoginActivity extends Activity implements NetworkResponse {
 	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
+	 * A Conscious Discipline authentication store containing known user names and passwords.
 	 */
 	private static final String[] MY_CREDENTIALS = new String[] {
 			"itabits@ita.br:xupadoente", "a@a:a" };

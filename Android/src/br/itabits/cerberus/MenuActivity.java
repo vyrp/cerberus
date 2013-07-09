@@ -34,7 +34,7 @@ public class MenuActivity extends Activity {
 
 	private String mEmail;
 	private static final String SERVER = "http://itabitscerberus.appspot.com/";
-	public static final String DEVICE_NAME = "ITAbits_" + android.os.Build.MODEL;
+	public static final String DEVICE_NAME = "ITAbits_" + android.os.Build.MODEL + "_" + android.os.Build.MANUFACTURER;
 	private static final String DEVICE_REGISTERED_STATE = "br.itabits.cerberus.registered";
 	DataBaseManager manager;
 
@@ -127,8 +127,6 @@ public class MenuActivity extends Activity {
 		protected Boolean doInBackground(String... name) {
 			try {
 				DataBaseManager manager = new DataBaseManager(SERVER, DEVICE_NAME);
-				// TODO
-				// DataBaseManager manager = new DataBaseManager(SERVER, android.os.Build.MODEL);
 				
 				if(borrowState.equals(BORROWED)){
 					try {
