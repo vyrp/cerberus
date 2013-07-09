@@ -16,7 +16,7 @@ public class Program {
         //String server = "http://localhost:8080/";
         DataBaseManager manager;
         try {
-            manager = new DataBaseManager(server, "ITAbits & Co.");
+            manager = new DataBaseManager(server, "Test Device");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return;
@@ -25,8 +25,8 @@ public class Program {
         /* Choose one */
         
         //printAll(manager);
-        createTransaction(manager, "Olé! não.");
-        //createDevice(manager, "ITAbits & Co.");
+        createTransaction(manager, "Croata");
+        //createDevice(manager, "Test Device");
         //update(manager);
     }
     
