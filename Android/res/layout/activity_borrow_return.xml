@@ -9,66 +9,56 @@
     tools:context=".BorrowReturnActivity" >
 
     <LinearLayout
-        android:id="@+id/form"
         style="@style/LoginFormContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        android:background="#aab8d2" >
+        android:orientation="vertical" >
 
-        <LinearLayout
-            style="@style/LoginFormContainer"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/borrow_return_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_gravity="center"
+            android:text="@string/borrow_return_title"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/borrow_return_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/borrow_return_title"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+        <TextView
+            android:id="@+id/borrow_return_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/borrow_return_name" />
 
-            <TextView
-                android:id="@+id/borrow_return_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="16dp"
-                android:text="@string/borrow_return_name" />
+        <TextView
+            android:id="@+id/borrow_return_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/borrow_return_date" />
 
-            <TextView
-                android:id="@+id/borrow_return_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="16dp"
-                android:text="@string/borrow_return_date" />
+        <TextView
+            android:id="@+id/borrow_return_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/borrow_return_time" />
 
-            <TextView
-                android:id="@+id/borrow_return_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="16dp"
-                android:text="@string/borrow_return_time" />
-
-            <Button
-                android:id="@+id/button_OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="@string/borrow_return_ok_button" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/button_OK"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/borrow_return_ok_button" />
+    </LinearLayout>
 
 </RelativeLayout>

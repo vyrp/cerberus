@@ -19,7 +19,7 @@
     <!-- Strings related to menu -->
     <string name="greetings_title">Hello <i>username</i></string>
     <string name="borrow_button">Borrow now</string>
-    <string name="return_button">Borrow now</string>
+    <string name="return_button">Return now</string>
     <string name="view_past_button">Past borrows</string>
     <string name="quit_button">Exit</string>
     
