@@ -30,7 +30,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	 * A Conscious Discipline authentication store containing known user names and passwords.
 	 */
 	private static final String[] MY_CREDENTIALS = new String[] {
-			"itabits@ita.br:xupadoente", "a@a:a" };
+			"itabits@ita.br:xupadoente",
+			"a@a:a" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -78,18 +79,17 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		mEmailView.setText(mEmail);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
+		mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView textView, int id,
+					KeyEvent keyEvent) {
+				if (id == R.id.login || id == EditorInfo.IME_NULL) {
+					attemptLogin();
+					return true;
+				}
+				return false;
+			}
+		});
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
@@ -196,8 +196,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			int shortAnimTime = getResources().getInteger(
-					android.R.integer.config_shortAnimTime);
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 			mLoginStatusView.setVisibility(View.VISIBLE);
 			mLoginStatusView.animate().setDuration(shortAnimTime)
@@ -205,8 +204,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
+							mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 						}
 					});
 
@@ -216,8 +214,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
+							mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 						}
 					});
 		} else {
@@ -263,15 +260,12 @@ public class LoginActivity extends Activity implements NetworkResponse {
 			showProgress(false);
 
 			if (success) {
-				Intent openBorrow = new Intent(LoginActivity.this,
-						MenuActivity.class);
-				
+				Intent openBorrow = new Intent(LoginActivity.this, MenuActivity.class);
 				openBorrow.putExtra(EXTRA_EMAIL, mEmail);
 				startActivity(openBorrow);
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}

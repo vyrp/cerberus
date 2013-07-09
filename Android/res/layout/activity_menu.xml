@@ -4,50 +4,48 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/form"
         style="@style/LoginFormContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        android:background="#aab8d2" >
+        android:orientation="vertical" >
 
-        <LinearLayout
-            style="@style/LoginFormContainer"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/greetings"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_gravity="center"
+            android:text="@string/greetings_title"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/greetings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/greetings_title"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+        <Button
+            android:id="@+id/button_borrow"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/borrow_button" />
 
-            <Button
-                android:id="@+id/button_borrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="@string/borrow_button" />
+        <Button
+            android:id="@+id/button_view_past"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/view_past_button" />
 
-            <Button
-                android:id="@+id/button_view_past"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="@string/view_past_button"/>
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/button_quit"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/quit_button" />
+
+    </LinearLayout>
 
 </RelativeLayout>

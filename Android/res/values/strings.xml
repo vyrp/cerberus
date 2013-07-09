@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     
     <string name="desc_splash">This is a loading screen</string>
-    <string name="powered_content">POWERED BY</string>
+    <string name="powered_content"></string>
     
     <string name="preference_file_key">br.itabits.cerberus.somedata</string>
     <string name="saved_borrow_state">borrow_state</string>
@@ -18,8 +18,10 @@
     
     <!-- Strings related to menu -->
     <string name="greetings_title">Hello <i>username</i></string>
-    <string name="borrow_button">borrow</string>
-    <string name="view_past_button">view past</string>
+    <string name="borrow_button">Borrow now</string>
+    <string name="return_button">Borrow now</string>
+    <string name="view_past_button">Past borrows</string>
+    <string name="quit_button">Exit</string>
     
     <!-- Strings related to borrow/return -->
     <string name="title_activity_borrow_return">Confirmation</string>

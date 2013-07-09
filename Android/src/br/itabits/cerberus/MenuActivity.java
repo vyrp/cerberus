@@ -72,20 +72,27 @@ public class MenuActivity extends Activity {
 		viewPastButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-
 				Intent openViewPast = new Intent(MenuActivity.this, BorrowTableActivity.class);
 				startActivity(openViewPast);
-
 			}
 		});
+		
+		Button exitButton = (Button) findViewById(R.id.button_quit);
+		exitButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                finish();
+                System.exit(0);
+            }
+        });
 	}
 
 	private void loadStates() {
 		borrowState = sharedPref.getInt(getString(R.string.saved_borrow_state), AVAIABLE);
 		if (borrowState.equals(AVAIABLE)) {
-			borrowReturn.setText("borrow");
+			borrowReturn.setText(R.string.borrow_button);
 		} else {
-			borrowReturn.setText("return");
+			borrowReturn.setText(R.string.return_button);
 		}
 		registerState = sharedPref.getInt(DEVICE_REGISTERED_STATE, UNREGISTERED);
 		if (registerState.equals(UNREGISTERED)) {
@@ -100,10 +107,10 @@ public class MenuActivity extends Activity {
 	private void updateBorrowState() {
 		if (borrowState.equals(AVAIABLE)) {
 			borrowState = BORROWED;
-			borrowReturn.setText("return");
+			borrowReturn.setText(R.string.return_button);
 		} else {
 			borrowState = AVAIABLE;
-			borrowReturn.setText("borrow");
+			borrowReturn.setText(R.string.borrow_button);
 		}
 		return;
 	}
@@ -175,37 +182,37 @@ public class MenuActivity extends Activity {
 	}
 	
 	// Uses AsyncTask to create a task away from the main UI thread.
-		// This task makes a put on the server depending on the state of the tablet
-		private class createDeviceTask extends AsyncTask<Void, Void, Boolean> {
-			@Override
-			protected Boolean doInBackground(Void... params) {
+	// This task makes a put on the server depending on the state of the tablet
+	private class createDeviceTask extends AsyncTask<Void, Void, Boolean> {
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				DataBaseManager manager = new DataBaseManager(SERVER, DEVICE_NAME);
+				
 				try {
-					DataBaseManager manager = new DataBaseManager(SERVER, DEVICE_NAME);
-					
-					try {
-			            manager.createDevice(DEVICE_NAME);
-			        } catch(ConnectException e){
-			            System.out.println("\n" + e.getMessage());
-			        } catch (IOException e) {
-			            e.printStackTrace();
-			        }
-					
-					return true;
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return null;
+		            manager.createDevice(DEVICE_NAME);
+		        } catch(ConnectException e){
+		            System.out.println("\n" + e.getMessage());
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				
+				return true;
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			return null;
+		}
 
-			// onPostExecute displays the results of the AsyncTask.
-			@Override
-			protected void onPostExecute(final Boolean success) {
-				if(success){
-					SharedPreferences.Editor editor = sharedPref.edit();
-					editor.putInt(DEVICE_REGISTERED_STATE, REGISTERED);
-					editor.commit();
-				}
+		// onPostExecute displays the results of the AsyncTask.
+		@Override
+		protected void onPostExecute(final Boolean success) {
+			if(success){
+				SharedPreferences.Editor editor = sharedPref.edit();
+				editor.putInt(DEVICE_REGISTERED_STATE, REGISTERED);
+				editor.commit();
 			}
 		}
+	}
 }
