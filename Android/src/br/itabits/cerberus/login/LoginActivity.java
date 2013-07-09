@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,11 +37,15 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	 * The default email to populate the email field with.
 	 */
 	public static final String EXTRA_EMAIL = "br.itabits.cerberus.extra.EMAIL";
+	public static final String EXTRA_FACEBOOK = "br.itabits.cerberus.extra.FACEBOOK";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
 	private UserLoginTask mAuthTask = null;
+
+	private static final int FACEBOOK_REQUEST = 1;
+	public static final int FACEBOOK_SUCCESS = 23;
 
 	// Values for email and password at the time of the login attempt.
 	private String mEmail;
@@ -98,8 +103,26 @@ public class LoginActivity extends Activity implements NetworkResponse {
 				attemptLogin();
 			}
 		});
+		
+		findViewById(R.id.buttonLoginFragment).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+                Intent openFacebookLogin = new Intent(LoginActivity.this, FacebookLoginFragmentActivity.class);
+                startActivityForResult(openFacebookLogin, FACEBOOK_REQUEST);
+			}
+		});
 	}
-
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode == FACEBOOK_REQUEST && data != null){
+			int value = data.getIntExtra(EXTRA_FACEBOOK, 0);
+			if(value== FACEBOOK_SUCCESS)
+				finish();
+		}
+	}
+	
 	@Override
 	protected void onStart() {
 		super.onStart();

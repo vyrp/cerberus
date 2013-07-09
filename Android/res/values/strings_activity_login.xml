@@ -4,10 +4,16 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="login_with_facebook">Sign in with facebook</string>
     <string name="action_forgot_password">Recover lost password</string>
     <string name="login_progress_signing_in">Signing in&#8230;</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    
+    <!-- Strings related to login with facebook -->
+    <string name="title_login_facebook">Facebook Log In</string>
+    <string name="applicationId">538882202836623</string>
+    
 
 </resources>

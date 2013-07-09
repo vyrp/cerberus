@@ -67,10 +67,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginTop="16dp"
+                android:focusableInTouchMode="false"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_sign_in_short"
-                android:focusableInTouchMode="false" />
+                android:text="@string/action_sign_in_short" />
+
+            <Button
+                android:id="@+id/buttonLoginFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/login_with_facebook" />
         </LinearLayout>
     </ScrollView>
 
