@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import cgi
 import logging
 import time
@@ -7,7 +9,7 @@ from models.Device import Device
 
 
 def serialize(transactions):
-    return "|".join([";".join(map(str, [t.start, t.name, t.end])) for t in transactions])
+    return "|".join([";".join(map(str, [t.start, t.name.encode("utf8"), t.end])) for t in transactions])
 
 
 def escape(string):
@@ -23,7 +25,7 @@ class HttpTableHandler(webapp2.RequestHandler):
         if not self.request.get("device"):
             return
 
-        device = Device.query(Device.name == escape(self.request.get("device"))).get()
+        device = Device.get_by_name(escape(self.request.get("device")))
         self.response.write(serialize(Transaction.get_all(device)))
 
     def post(self):

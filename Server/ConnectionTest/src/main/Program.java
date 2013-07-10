@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class Program {
     public static void main(String[] args) {
-        String server = "http://itabitscerberus.appspot.com/";
-        //String server = "http://localhost:8080/";
+        //String server = "http://itabitscerberus.appspot.com/";
+        String server = "http://localhost:8080/";
         DataBaseManager manager;
         try {
             manager = new DataBaseManager(server, "Test Device");
@@ -24,8 +24,8 @@ public class Program {
         
         /* Choose one */
         
-        //printAll(manager);
-        createTransaction(manager, "Croata");
+        printAll(manager);
+        //createTransaction(manager, "olé@a");
         //createDevice(manager, "Test Device");
         //update(manager);
     }
