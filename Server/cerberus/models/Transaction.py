@@ -12,4 +12,4 @@ class Transaction(ndb.Model):
 
     @classmethod
     def get_all(cls, device):
-        return cls.query(ancestor=device.key).order(cls.start).fetch()
+        return cls.query(ancestor=device.key).order(-cls.start).fetch()

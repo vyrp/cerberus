@@ -38,7 +38,8 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	 */
 	private static final String[] MY_CREDENTIALS = new String[] {
 			"itabits@ita.br:xupadoente",
-			"a@a:a" };
+			"a@a:a",
+			"olé@a:a"};
 
 	/**
 	 * The default email to populate the email field with.
