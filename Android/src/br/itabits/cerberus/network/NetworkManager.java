@@ -25,106 +25,101 @@ import android.widget.Toast;
 import br.itabits.cerberus.R;
 
 /**
- * a manager that tracks every network change allowing different behaviors
- * for each transition.<br>
+ * a manager that tracks every network change allowing different behaviors for each transition.<br>
  * (only Wi-Fi is tracked in this class)
  * 
  * @author Marcelo
  */
-public class NetworkManager{
-    public static final String WIFI = "Wi-Fi";
-    
-    // Whether there is a Wi-Fi connection.
-    private static boolean wifiConnected = false;
-    // Whether the display should be refreshed.
-    public static boolean refreshDisplay = true;
+public class NetworkManager {
+	public static final String WIFI = "Wi-Fi";
 
-    // The BroadcastReceiver that tracks network connectivity changes.
-    private NetworkReceiver receiver = new NetworkReceiver();
-    private NetworkResponse response;
+	// Whether there is a Wi-Fi connection.
+	private static boolean wifiConnected = false;
+	// Whether the display should be refreshed.
+	public static boolean refreshDisplay = true;
 
-    // All the registers need to be done in a specific context 
-    private Context context;
-    
-    public NetworkManager(Context applicationContext) {
+	// The BroadcastReceiver that tracks network connectivity changes.
+	private NetworkReceiver receiver = new NetworkReceiver();
+	private NetworkResponse response;
+
+	// All the registers need to be done in a specific context
+	private Context context;
+
+	public NetworkManager(Context applicationContext) {
 		context = applicationContext;
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
-        // Register BroadcastReceiver to track connection changes.
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        receiver = new NetworkReceiver();
-        context.registerReceiver(receiver, filter);
-        
-    }
+		// Register BroadcastReceiver to track connection changes.
+		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+		receiver = new NetworkReceiver();
+		context.registerReceiver(receiver, filter);
 
-    // Refreshes the display if the network connection allow it.
-    public void onStart() {
-        updateConnectedFlags();
-    }
+	}
 
-    public void onDestroy() {
-        if (receiver != null) {
-            context.unregisterReceiver(receiver);
-        }
-    }
-    
-    public boolean getWIFIConnected(){
-    	return wifiConnected;
-    }
-    
-    // Checks the network connection and sets the wifiConnected
-    // variables accordingly.
-    private void updateConnectedFlags() {
-        ConnectivityManager connMgr =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	// Refreshes the display if the network connection allow it.
+	public void onStart() {
+		updateConnectedFlags();
+	}
 
-        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
-        if (activeInfo != null && activeInfo.isConnected()) {
-            wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
-        } else {
-            wifiConnected = false;
-        }
-    }
+	public void onDestroy() {
+		if (receiver != null) {
+			context.unregisterReceiver(receiver);
+		}
+	}
 
-    /**
-     *
-     * This BroadcastReceiver intercepts the android.net.ConnectivityManager.CONNECTIVITY_ACTION,
-     * which indicates a connection change. It checks whether the type is TYPE_WIFI.
-     * If it is, it checks whether Wi-Fi is connected and sets the wifiConnected flag in the
-     * main activity accordingly.
-     *
-     */
-    public class NetworkReceiver extends BroadcastReceiver {
+	public boolean getWIFIConnected() {
+		return wifiConnected;
+	}
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connMgr =
-                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+	// Checks the network connection and sets the wifiConnected
+	// variables accordingly.
+	private void updateConnectedFlags() {
+		ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            // Checks the network connection. Based on the result, decides whether
-            // to refresh the display or keep the current display.
-            if (networkInfo != null
-                    && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                // If device has its Wi-Fi connection, sets refreshDisplay
-                // to true. This causes the display to be refreshed when the user
-                // returns to the app.
-                refreshDisplay = true;
-                response.onChangesDetected(refreshDisplay);
-                Toast.makeText(context, R.string.wifi_connected, Toast.LENGTH_SHORT).show();
+		NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
+		if (activeInfo != null && activeInfo.isConnected()) {
+			wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
+		} else {
+			wifiConnected = false;
+		}
+	}
 
-                // If the setting is ANY network and there is a network connection
-                // (which by process of elimination would be mobile), sets refreshDisplay to true.
-            } else {
-                refreshDisplay = false;
-                response.onChangesDetected(refreshDisplay);
-                Toast.makeText(context, R.string.lost_connection, Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    
-    public void setResponse(NetworkResponse response){
-    	this.response = response;
-    }
+	/**
+	 * 
+	 * This BroadcastReceiver intercepts the android.net.ConnectivityManager.CONNECTIVITY_ACTION, which indicates a
+	 * connection change. It checks whether the type is TYPE_WIFI. If it is, it checks whether Wi-Fi is connected and
+	 * sets the wifiConnected flag in the main activity accordingly.
+	 * 
+	 */
+	public class NetworkReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+			// Checks the network connection. Based on the result, decides whether
+			// to refresh the display or keep the current display.
+			if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+				// If device has its Wi-Fi connection, sets refreshDisplay
+				// to true. This causes the display to be refreshed when the user
+				// returns to the app.
+				refreshDisplay = true;
+				response.onChangesDetected(refreshDisplay);
+				Toast.makeText(context, R.string.wifi_connected, Toast.LENGTH_SHORT).show();
+
+				// If the setting is ANY network and there is a network connection
+				// (which by process of elimination would be mobile), sets refreshDisplay to true.
+			} else {
+				refreshDisplay = false;
+				response.onChangesDetected(refreshDisplay);
+				Toast.makeText(context, R.string.lost_connection, Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	public void setResponse(NetworkResponse response) {
+		this.response = response;
+	}
 }

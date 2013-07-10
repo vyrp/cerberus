@@ -7,7 +7,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-    	android:background="@drawable/splash_screen"
+        android:background="@drawable/splash_screen"
         android:fitsSystemWindows="true" >
 
         <LinearLayout
@@ -22,7 +22,6 @@
         </LinearLayout>
     </FrameLayout>
 
-
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
@@ -33,5 +32,5 @@
         android:textColor="#e3e5e5"
         android:textSize="20sp"
         android:textStyle="bold" />
-    
+
 </FrameLayout>

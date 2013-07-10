@@ -67,8 +67,11 @@ public class MenuActivity extends Activity {
 		menuStatusView = findViewById(R.id.borrow_menu_status);
 		menuView = findViewById(R.id.borrow_return_menu);
 
-		// The email is the user ID for the operations of borrow and return
-		// if the user connects with his facebook account the userID will be his name
+		// The email is the user ID for the operations of borrow and
+		// return
+		// if the user connects with his facebook account the userID
+		// will be his
+		// name
 		userID = getIntent().getStringExtra(LoginActivity.EXTRA_USER_ID);
 		if (userID == null) {
 			userID = sharedPref.getString(LAST_USER, "unknow");
@@ -173,8 +176,10 @@ public class MenuActivity extends Activity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs,
+		// which allow
+		// for very easy animations. If available, use these APIs to
+		// fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
@@ -197,7 +202,8 @@ public class MenuActivity extends Activity {
 						}
 					});
 		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
+			// The ViewPropertyAnimator APIs are not available, so
+			// simply show
 			// and hide the relevant UI components.
 			menuStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			menuView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -207,7 +213,8 @@ public class MenuActivity extends Activity {
 	/* * * * AsyncTasks * * * */
 
 	// Uses AsyncTask to create a task away from the main UI thread.
-	// This task makes a put on the server depending on the state of the device
+	// This task makes a put on the server depending on the state of
+	// the device
 	private class createUpdateTask extends AsyncTask<String, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(String... name) {
@@ -236,7 +243,8 @@ public class MenuActivity extends Activity {
 					} catch (ConnectException e) {
 						ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 					} catch (IOException e) {
-						ErrorDialogMessage.show(getParent(), "Sorry, your message was not successful delivered. Try again.");
+						ErrorDialogMessage.show(getParent(),
+								"Sorry, your message was not successful delivered. Try again.");
 					}
 
 					return false;

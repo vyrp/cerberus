@@ -24,22 +24,19 @@ import br.itabits.cerberus.network.NetworkResponse;
 /**
  * Activity which displays a login screen to the user, offering registration as well.<br>
  * Basically, there are two types of login:<br>
- * - one local and easy connection that requires an email and the local password
- * - a connection based on a login with Facebook account
+ * - one local and easy connection that requires an email and the local password - a connection based on a login with
+ * Facebook account
  * 
  * @author Marcelo
  */
 public class LoginActivity extends Activity implements NetworkResponse {
-	
+
 	/* * Constants * */
-	
+
 	/**
 	 * A Conscious Discipline authentication store containing known user names and passwords.
 	 */
-	private static final String[] MY_CREDENTIALS = new String[] {
-			"itabits@ita.br:xupadoente",
-			"a@a:a",
-			"olé@a:a"};
+	private static final String[] MY_CREDENTIALS = new String[] { "itabits@ita.br:xupadoente", "a@a:a", "olé@a:a" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -65,7 +62,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	public static final int FACEBOOK_SUCCESS = 23;
 
 	/* * Fields * */
-	
+
 	// Values for email and password at the time of the login attempt.
 	private String mEmail;
 	private String mPassword;
@@ -82,7 +79,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	NetworkManager networkManager;
 
 	/* * Activity Methods * */
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -137,10 +134,10 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == FACEBOOK_REQUEST && data != null) {
 			int value = data.getIntExtra(EXTRA_FACEBOOK, 0);
-			if (value == FACEBOOK_SUCCESS){
+			if (value == FACEBOOK_SUCCESS) {
 				// Uses the name of the facebook to the next activity
 				Intent openBorrow = new Intent(LoginActivity.this, MenuActivity.class);
-				openBorrow.putExtra(LoginActivity.EXTRA_USER_ID,data.getStringExtra(LoginActivity.EXTRA_USER_ID));
+				openBorrow.putExtra(LoginActivity.EXTRA_USER_ID, data.getStringExtra(LoginActivity.EXTRA_USER_ID));
 				startActivity(openBorrow);
 				finish();
 			}
@@ -160,7 +157,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	}
 
 	/* * Methods * */
-	
+
 	/**
 	 * Attempts to sign in or register the account specified by the login form. If there are form errors (invalid email,
 	 * missing fields, etc.), the errors are presented and no actual login attempt is made.
@@ -214,7 +211,7 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	}
 
 	// Private Methods
-	
+
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -252,10 +249,9 @@ public class LoginActivity extends Activity implements NetworkResponse {
 	}
 
 	/* * * * AssyncTask * * * */
-	
+
 	/**
-	 * Represents an asynchronous login/registration task used to 
-	 * authenticate the user locally and generate a ID.
+	 * Represents an asynchronous login/registration task used to authenticate the user locally and generate a ID.
 	 * 
 	 * @author Marcelo
 	 */

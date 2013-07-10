@@ -79,7 +79,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:text="@string/login_with_facebook" />
-
         </LinearLayout>
     </ScrollView>
 

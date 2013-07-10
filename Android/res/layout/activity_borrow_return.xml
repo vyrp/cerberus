@@ -8,7 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BorrowReturnActivity" >
 
-    
+    <LinearLayout
+        android:id="@+id/getawayfromherewarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
     <LinearLayout
         style="@style/LoginFormContainer"
         android:layout_width="300dp"

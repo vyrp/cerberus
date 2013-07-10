@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-	
-	<!-- Login progress -->
+
+    <!-- Login progress -->
 
     <LinearLayout
         android:id="@+id/borrow_menu_status"
@@ -32,13 +32,12 @@
             android:text="@string/fetching_data_table"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-    
+
     <!-- Borrow Menu -->
-    
-   
+
     <LinearLayout
-        style="@style/LoginFormContainer"
         android:id="@+id/borrow_return_menu"
+        style="@style/LoginFormContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="false"
@@ -79,7 +78,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="@string/quit_button" />
-
     </LinearLayout>
 
 </RelativeLayout>

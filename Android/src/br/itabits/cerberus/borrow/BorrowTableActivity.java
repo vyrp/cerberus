@@ -33,7 +33,7 @@ import br.itabits.cerberus.util.Transaction;
 public class BorrowTableActivity extends Activity {
 	private static final int pad = 5;
 	public static final String SERVER = "http://itabitscerberus.appspot.com/";
-	
+
 	private View tableWrapper;
 	private View tableStatusView;
 
@@ -41,23 +41,23 @@ public class BorrowTableActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_borrow_table);
-		
+
 		tableStatusView = findViewById(R.id.borrow_table_status);
 		tableWrapper = findViewById(R.id.borrow_table_wrapper);
-		
+
 		View tableContainer = findViewById(R.id.borrow_table_container);
-        
+
 		Display display = getWindowManager().getDefaultDisplay();
 		DisplayMetrics metrics = new DisplayMetrics();
 		display.getMetrics(metrics);
-        
-        if(metrics.widthPixels / metrics.density > 800) {
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
-            params.gravity = Gravity.CENTER_HORIZONTAL;
-            tableContainer.setLayoutParams(params);
-        }
-		
-	    showProgress(true);
+
+		if (metrics.widthPixels / metrics.density > 800) {
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
+			params.gravity = Gravity.CENTER_HORIZONTAL;
+			tableContainer.setLayoutParams(params);
+		}
+
+		showProgress(true);
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
@@ -102,32 +102,31 @@ public class BorrowTableActivity extends Activity {
 			borrowTable.addView(row);
 		}
 	}
-	
+
 	/**
 	 * Shows the progress UI and hides the table.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs,
+		// which allow
+		// for very easy animations. If available, use these APIs to
+		// fade-in
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 			tableStatusView.setVisibility(View.VISIBLE);
-			tableStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
+			tableStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							tableStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
+							tableStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 						}
 					});
 
 			tableWrapper.setVisibility(View.VISIBLE);
-			tableWrapper.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
+			tableWrapper.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
@@ -135,33 +134,39 @@ public class BorrowTableActivity extends Activity {
 						}
 					});
 		} else {
-			// The ViewPropertyAnimator APIs are not available, so simply show
+			// The ViewPropertyAnimator APIs are not available, so
+			// simply show
 			// and hide the relevant UI components.
 			tableStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			tableWrapper.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
-	
-	
+
 	/* * * * AsyncTask * * * */
 
-	// Uses AsyncTask to create a task away from the main UI thread. This task takes a
-	// URL string and uses it to create an HttpUrlConnection. Once the connection
-	// has been established, the AsyncTask downloads the contents of the dataserver as
-	// an InputStream. Finally, the InputStream is converted into a string, which is
-	// modeled into a table in the UI by the AsyncTask's onPostExecute method.
+	// Uses AsyncTask to create a task away from the main UI thread.
+	// This task takes a
+	// URL string and uses it to create an HttpUrlConnection. Once the
+	// connection
+	// has been established, the AsyncTask downloads the contents of
+	// the dataserver as
+	// an InputStream. Finally, the InputStream is converted into a
+	// string, which is
+	// modeled into a table in the UI by the AsyncTask's onPostExecute
+	// method.
 	private class DownloadDataTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				DataBaseManager manager = new DataBaseManager(SERVER,MenuActivity.DEVICE_NAME);
+				DataBaseManager manager = new DataBaseManager(SERVER, MenuActivity.DEVICE_NAME);
 				String result = null;
 				try {
 					result = manager.getAll();
 				} catch (ConnectException e) {
 					ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 				} catch (IOException e) {
-					ErrorDialogMessage.show(getParent(), "Sorry, your message was not successful delivered. Try again.");
+					ErrorDialogMessage
+							.show(getParent(), "Sorry, your message was not successful delivered. Try again.");
 				}
 				return result;
 			} catch (UnsupportedEncodingException e) {
@@ -174,10 +179,10 @@ public class BorrowTableActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			showProgress(false);
-			
-			if(result != null){
+
+			if (result != null) {
 				ArrayList<Transaction> transactions = Transaction.fromString(result);
-				printTable(transactions);	
+				printTable(transactions);
 			}
 		}
 	}
