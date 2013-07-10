@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,8 +39,15 @@ public class BorrowTableActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_borrow_table);
 		
-		tableWrapper = findViewById(R.id.borrow_table_wrapper);
 		tableStatusView = findViewById(R.id.borrow_table_status);
+		tableWrapper = findViewById(R.id.borrow_table_wrapper);
+		View tableContainer = findViewById(R.id.borrow_table_container);
+		
+		if(tableWrapper.getWidth() > 800) {
+		    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
+		    params.gravity = Gravity.CENTER_HORIZONTAL;
+		    tableContainer.setLayoutParams(params);
+		}
 
 		showProgress(true);
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -62,18 +70,21 @@ public class BorrowTableActivity extends Activity {
 
 			row.setLayoutParams(new LayoutParams(800, LayoutParams.WRAP_CONTENT));
 
+			borrowed.setLayoutParams(new TableRow.LayoutParams(300, LayoutParams.WRAP_CONTENT));
 			borrowed.setPadding(pad, pad, pad, pad);
 			borrowed.setGravity(Gravity.CENTER_HORIZONTAL);
 			borrowed.setWidth(300);
 			borrowed.setText(transaction.getStart());
 			row.addView(borrowed);
 
+			name.setLayoutParams(new TableRow.LayoutParams(200, LayoutParams.WRAP_CONTENT));
 			name.setPadding(pad, pad, pad, pad);
 			name.setGravity(Gravity.CENTER_HORIZONTAL);
 			borrowed.setWidth(200);
 			name.setText(transaction.getName());
 			row.addView(name);
 
+			returned.setLayoutParams(new TableRow.LayoutParams(300, LayoutParams.WRAP_CONTENT));
 			returned.setPadding(pad, pad, pad, pad);
 			returned.setGravity(Gravity.CENTER_HORIZONTAL);
 			borrowed.setWidth(300);

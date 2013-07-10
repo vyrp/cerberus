@@ -24,21 +24,12 @@ import android.os.Bundle;
 import android.widget.Toast;
 import br.itabits.cerberus.R;
 
-
 /**
- * Main Activity for the sample application.
- *
- * This activity does the following:
- *
- * o Presents a WebView screen to users. This WebView has a list of HTML links to the latest
- *   questions tagged 'android' on stackoverflow.com.
- *
- * o Parses the StackOverflow XML feed using XMLPullParser.
- *
- * o Uses AsyncTask to download and process the XML feed.
- *
- * o Monitors preferences and the device's network connection to determine whether
- *   to refresh the WebView content.
+ * a manager that tracks every network change allowing different behaviors
+ * for each transition.<br>
+ * (only Wi-Fi is tracked in this class)
+ * 
+ * @author Marcelo
  */
 public class NetworkManager{
     public static final String WIFI = "Wi-Fi";
