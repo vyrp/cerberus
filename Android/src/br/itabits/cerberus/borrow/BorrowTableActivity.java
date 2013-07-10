@@ -27,6 +27,7 @@ import android.widget.TextView;
 import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
 import br.itabits.cerberus.database.DataBaseManager;
+import br.itabits.cerberus.util.ErrorDialogMessage;
 import br.itabits.cerberus.util.Transaction;
 
 public class BorrowTableActivity extends Activity {
@@ -62,7 +63,7 @@ public class BorrowTableActivity extends Activity {
 		if (networkInfo != null && networkInfo.isConnected()) {
 			new DownloadDataTask().execute();
 		} else {
-			// TODO
+			ErrorDialogMessage.show(this, "Connection failed. Check your network and try again.");
 		}
 	}
 
@@ -158,14 +159,13 @@ public class BorrowTableActivity extends Activity {
 				try {
 					result = manager.getAll();
 				} catch (ConnectException e) {
-					System.out.println("\n" + e.getMessage());
+					ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 				} catch (IOException e) {
-					e.printStackTrace();
+					ErrorDialogMessage.show(getParent(), "Sorry, your message was not successful delivered. Try again.");
 				}
 				return result;
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorDialogMessage.show(getParent(), "We're terrible sorry. This shouldn't have happened. :(");
 			}
 			return null;
 		}

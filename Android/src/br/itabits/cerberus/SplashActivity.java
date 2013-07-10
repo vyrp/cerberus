@@ -1,5 +1,6 @@
 package br.itabits.cerberus;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +35,7 @@ public class SplashActivity extends Activity {
 	private static final long SPLASHTIME = 1500; // time in milliseconds
 
 	// handler for splash screen
-	// TODO : remover esse leak
+	@SuppressLint("HandlerLeak")
 	private Handler splashHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {

@@ -45,7 +45,7 @@ public class BorrowReturnActivity extends Activity {
 		TextView timeView = (TextView) findViewById(R.id.borrow_return_time);
 		String time = getString(R.string.time) +"  "+ timeFormat.format(c.getTime());
 		timeView.setText(time);
-		
+     
 		findViewById(R.id.button_OK).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

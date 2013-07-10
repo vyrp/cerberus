@@ -24,43 +24,44 @@ import br.itabits.cerberus.borrow.BorrowReturnActivity;
 import br.itabits.cerberus.borrow.BorrowTableActivity;
 import br.itabits.cerberus.database.DataBaseManager;
 import br.itabits.cerberus.login.LoginActivity;
+import br.itabits.cerberus.util.ErrorDialogMessage;
 
 public class MenuActivity extends Activity {
 
 	/* * Constants * */
-	
+
 	public static final String DEVICE_NAME = "ITAbits_" + android.os.Build.MODEL + "_" + android.os.Build.MANUFACTURER;
 	public static final String SERVER = "http://itabitscerberus.appspot.com/";
 	public static final String DEVICE_REGISTERED_STATE = "br.itabits.cerberus.registered";
 	public static final String AVAILABLE_BORROWED_STATE = "br.itabits.cerberus.borrow";
 	public static final String LAST_USER = "br.itabits.cerberus.last_user";
-	
+
 	public static final int AVAILABLE = 0;
 	public static final int BORROWED = 1;
 	private static final int UNREGISTERED = 0;
 	private static final int REGISTERED = 1;
-	
+
 	/* * Fields * */
-	
+
 	private SharedPreferences sharedPref;
 	private Integer borrowState;
 	private Integer registerState;
 	private Button borrowReturn;
-	
+
 	private View menuView;
 	private View menuStatusView;
-	
+
 	private String userID;
-	
+
 	DataBaseManager manager;
 
 	/* * Activity Methods * */
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-		
+
 		sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
 
 		menuStatusView = findViewById(R.id.borrow_menu_status);
@@ -76,7 +77,6 @@ public class MenuActivity extends Activity {
 		TextView title = (TextView) findViewById(R.id.greetings);
 		title.setText(title.getText().toString().replace("username", userID));
 
-		
 		// Registering listeners for the buttons
 		borrowReturn = (Button) findViewById(R.id.button_borrow);
 		borrowReturn.setOnClickListener(new OnClickListener() {
@@ -84,13 +84,13 @@ public class MenuActivity extends Activity {
 			public void onClick(View arg0) {
 				borrowReturn.setClickable(false);
 				showProgress(true);
-				
+
 				ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 				if (networkInfo != null && networkInfo.isConnected()) {
 					new createUpdateTask().execute(userID);
 				} else {
-					// TODO
+					ErrorDialogMessage.show(getParent(), "User not found");
 				}
 			}
 		});
@@ -103,17 +103,17 @@ public class MenuActivity extends Activity {
 				startActivity(openViewPast);
 			}
 		});
-		
+
 		Button exitButton = (Button) findViewById(R.id.button_quit);
 		exitButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                finish();
-                System.exit(0);
-            }
-        });
+			@Override
+			public void onClick(View arg0) {
+				finish();
+				System.exit(0);
+			}
+		});
 	}
-	
+
 	/**
 	 * read from preferences file the borrow and registered state
 	 */
@@ -153,7 +153,7 @@ public class MenuActivity extends Activity {
 	}
 
 	// Private Methods
-	
+
 	/**
 	 * changes borrow state and the button UI action
 	 */
@@ -167,7 +167,7 @@ public class MenuActivity extends Activity {
 		}
 		return;
 	}
-	
+
 	/**
 	 * Shows the progress UI and hides the table.
 	 */
@@ -180,19 +180,16 @@ public class MenuActivity extends Activity {
 			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
 			menuStatusView.setVisibility(View.VISIBLE);
-			menuStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
+			menuStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							menuStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
+							menuStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 						}
 					});
 
 			menuView.setVisibility(View.VISIBLE);
-			menuView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
+			menuView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
@@ -208,7 +205,7 @@ public class MenuActivity extends Activity {
 	}
 
 	/* * * * AsyncTasks * * * */
-	
+
 	// Uses AsyncTask to create a task away from the main UI thread.
 	// This task makes a put on the server depending on the state of the device
 	private class createUpdateTask extends AsyncTask<String, Void, Boolean> {
@@ -225,9 +222,9 @@ public class MenuActivity extends Activity {
 						manager.put(name[0]);
 						return true;
 					} catch (ConnectException e) {
-						System.out.println("\n" + e.getMessage());
+						ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 					} catch (IOException e) {
-						e.printStackTrace();
+						ErrorDialogMessage.show(getParent(), "Connection failed.");
 					}
 				} else {
 					String result = null;
@@ -237,28 +234,27 @@ public class MenuActivity extends Activity {
 						if (result != null)
 							return true;
 					} catch (ConnectException e) {
-						System.out.println("\n" + e.getMessage());
+						ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 					} catch (IOException e) {
-						e.printStackTrace();
+						ErrorDialogMessage.show(getParent(), "Sorry, your message was not successful delivered. Try again.");
 					}
 
 					return false;
 				}
 				return false;
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorDialogMessage.show(getParent(), "We're terrible sorry. This shouldn't have happened. :(");
 			}
 			return null;
 		}
 
-		// on success changes the button action 
-		// and leads to a confirmation screen 
+		// on success changes the button action
+		// and leads to a confirmation screen
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			showProgress(false);
 			borrowReturn.setClickable(true);
-			
+
 			if (success) {
 				updateBorrowState();
 
@@ -272,8 +268,8 @@ public class MenuActivity extends Activity {
 	}
 
 	/**
-	 * This task creates the device on the server when it is unregistered,
-	 * in other words, at the first time using the app.
+	 * This task creates the device on the server when it is unregistered, in other words, at the first time using the
+	 * app.
 	 * 
 	 * @author Marcelo
 	 */
@@ -287,20 +283,18 @@ public class MenuActivity extends Activity {
 					manager.createDevice(DEVICE_NAME);
 					return true;
 				} catch (ConnectException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ErrorDialogMessage.show(getParent(), "Connection failed. Check your network and try again.");
 				} catch (IOException e) {
-					e.printStackTrace();
+					ErrorDialogMessage.show(getParent(), "An. Check your network and try again.");
 				}
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorDialogMessage.show(getParent(), "We're terrible sorry. This shouldn't have happened. :(");
 			}
 
 			return false;
 		}
 
-		// on success saves information that the device was registered   
+		// on success saves information that the device was registered
 		@Override
 		protected void onPostExecute(final Boolean success) {
 			if (success) {
