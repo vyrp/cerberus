@@ -33,8 +33,8 @@
 
     <HorizontalScrollView
         android:id="@+id/borrow_table_wrapper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:measureAllChildren="true" >
 
         <LinearLayout

@@ -15,6 +15,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -41,15 +43,20 @@ public class BorrowTableActivity extends Activity {
 		
 		tableStatusView = findViewById(R.id.borrow_table_status);
 		tableWrapper = findViewById(R.id.borrow_table_wrapper);
-		View tableContainer = findViewById(R.id.borrow_table_container);
 		
-		if(tableWrapper.getWidth() > 800) {
-		    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
-		    params.gravity = Gravity.CENTER_HORIZONTAL;
-		    tableContainer.setLayoutParams(params);
-		}
-
-		showProgress(true);
+		View tableContainer = findViewById(R.id.borrow_table_container);
+        
+		Display display = getWindowManager().getDefaultDisplay();
+		DisplayMetrics metrics = new DisplayMetrics();
+		display.getMetrics(metrics);
+        
+        if(metrics.widthPixels / metrics.density > 800) {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(800, LayoutParams.MATCH_PARENT);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            tableContainer.setLayoutParams(params);
+        }
+		
+	    showProgress(true);
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
