@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
 import br.itabits.cerberus.login.LoginActivity;
 
@@ -21,14 +22,17 @@ public class BorrowReturnActivity extends Activity {
 		setContentView(R.layout.activity_borrow_return);
 		
 		Intent intent = getIntent();
-		String title = intent.getStringExtra(getString(R.string.title_activity_borrow_return));
+		String title = intent.getStringExtra(MenuActivity.AVAILABLE_BORROWED_STATE);
 		String mEmail = intent.getStringExtra(LoginActivity.EXTRA_USER_ID);
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
 		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss",Locale.ENGLISH);
 		
 		TextView titleView = (TextView) findViewById(R.id.borrow_return_title);
-		titleView.setText(title);
+		if(title == null){
+			titleView.setText("Confirmation");
+		} else titleView.setText(title);
+		
 		
 		TextView userView = (TextView) findViewById(R.id.borrow_return_name);
 		String userName = getString(R.string.name) +"  "+ mEmail;

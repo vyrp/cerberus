@@ -94,44 +94,6 @@ public class BorrowTableActivity extends Activity {
 			borrowTable.addView(row);
 		}
 	}
-
-	// Uses AsyncTask to create a task away from the main UI thread. This task takes a
-	// URL string and uses it to create an HttpUrlConnection. Once the connection
-	// has been established, the AsyncTask downloads the contents of the dataserver as
-	// an InputStream. Finally, the InputStream is converted into a string, which is
-	// modeled into a table in the UI by the AsyncTask's onPostExecute method.
-	private class DownloadDataTask extends AsyncTask<Void, Void, String> {
-		@Override
-		protected String doInBackground(Void... params) {
-			try {
-				DataBaseManager manager = new DataBaseManager(SERVER,MenuActivity.DEVICE_NAME);
-				String result = null;
-				try {
-					result = manager.getAll();
-				} catch (ConnectException e) {
-					System.out.println("\n" + e.getMessage());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				return result;
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		// onPostExecute displays the results of the AsyncTask.
-		@Override
-		protected void onPostExecute(String result) {
-			showProgress(false);
-			
-			if(result != null){
-				ArrayList<Transaction> transactions = Transaction.fromString(result);
-				printTable(transactions);	
-			}
-		}
-	}
 	
 	/**
 	 * Shows the progress UI and hides the table.
@@ -169,6 +131,47 @@ public class BorrowTableActivity extends Activity {
 			// and hide the relevant UI components.
 			tableStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 			tableWrapper.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
+	
+	
+	/* * * * AsyncTask * * * */
+
+	// Uses AsyncTask to create a task away from the main UI thread. This task takes a
+	// URL string and uses it to create an HttpUrlConnection. Once the connection
+	// has been established, the AsyncTask downloads the contents of the dataserver as
+	// an InputStream. Finally, the InputStream is converted into a string, which is
+	// modeled into a table in the UI by the AsyncTask's onPostExecute method.
+	private class DownloadDataTask extends AsyncTask<Void, Void, String> {
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				DataBaseManager manager = new DataBaseManager(SERVER,MenuActivity.DEVICE_NAME);
+				String result = null;
+				try {
+					result = manager.getAll();
+				} catch (ConnectException e) {
+					System.out.println("\n" + e.getMessage());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return result;
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		// onPostExecute displays the results of the AsyncTask.
+		@Override
+		protected void onPostExecute(String result) {
+			showProgress(false);
+			
+			if(result != null){
+				ArrayList<Transaction> transactions = Transaction.fromString(result);
+				printTable(transactions);	
+			}
 		}
 	}
 }

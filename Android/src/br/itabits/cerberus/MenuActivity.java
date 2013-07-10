@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +14,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +32,7 @@ public class MenuActivity extends Activity {
 	public static final String DEVICE_NAME = "ITAbits_" + android.os.Build.MODEL + "_" + android.os.Build.MANUFACTURER;
 	public static final String SERVER = "http://itabitscerberus.appspot.com/";
 	public static final String DEVICE_REGISTERED_STATE = "br.itabits.cerberus.registered";
-	public static final String AVAILABLE_BORROW_STATE = "br.itabits.cerberus.borrow";
+	public static final String AVAILABLE_BORROWED_STATE = "br.itabits.cerberus.borrow";
 	public static final String LAST_USER = "br.itabits.cerberus.last_user";
 	
 	public static final int AVAILABLE = 0;
@@ -43,6 +47,9 @@ public class MenuActivity extends Activity {
 	private Integer registerState;
 	private Button borrowReturn;
 	
+	private View menuView;
+	private View menuStatusView;
+	
 	private String userID;
 	
 	DataBaseManager manager;
@@ -53,8 +60,11 @@ public class MenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-
+		
 		sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+
+		menuStatusView = findViewById(R.id.borrow_menu_status);
+		menuView = findViewById(R.id.borrow_return_menu);
 
 		// The email is the user ID for the operations of borrow and return
 		// if the user connects with his facebook account the userID will be his name
@@ -72,6 +82,9 @@ public class MenuActivity extends Activity {
 		borrowReturn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				borrowReturn.setClickable(false);
+				showProgress(true);
+				
 				ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 				if (networkInfo != null && networkInfo.isConnected()) {
@@ -139,7 +152,7 @@ public class MenuActivity extends Activity {
 		editor.commit();
 	}
 
-	// Private Method
+	// Private Methods
 	
 	/**
 	 * changes borrow state and the button UI action
@@ -154,8 +167,47 @@ public class MenuActivity extends Activity {
 		}
 		return;
 	}
+	
+	/**
+	 * Shows the progress UI and hides the table.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-	/* * * * AsynTaks * * * */
+			menuStatusView.setVisibility(View.VISIBLE);
+			menuStatusView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 1 : 0)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							menuStatusView.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			menuView.setVisibility(View.VISIBLE);
+			menuView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 0 : 1)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							menuView.setVisibility(show ? View.GONE : View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			menuStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			menuView.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
+
+	/* * * * AsyncTasks * * * */
 	
 	// Uses AsyncTask to create a task away from the main UI thread.
 	// This task makes a put on the server depending on the state of the device
@@ -204,12 +256,15 @@ public class MenuActivity extends Activity {
 		// and leads to a confirmation screen 
 		@Override
 		protected void onPostExecute(final Boolean success) {
+			showProgress(false);
+			borrowReturn.setClickable(true);
+			
 			if (success) {
 				updateBorrowState();
 
 				Intent openBorrowReturn = new Intent(MenuActivity.this, BorrowReturnActivity.class);
 				String title = (borrowState.equals(AVAILABLE)) ? "Returned" : "Borrowed";
-				openBorrowReturn.putExtra(AVAILABLE_BORROW_STATE, title);
+				openBorrowReturn.putExtra(AVAILABLE_BORROWED_STATE, title);
 				openBorrowReturn.putExtra(LoginActivity.EXTRA_USER_ID, userID);
 				startActivity(openBorrowReturn);
 			}
