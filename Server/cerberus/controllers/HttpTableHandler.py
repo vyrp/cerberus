@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import cgi
-import logging
 import time
 import webapp2
 from models.Transaction import Transaction
