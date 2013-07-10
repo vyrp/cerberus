@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import br.itabits.cerberus.MenuActivity;
 import br.itabits.cerberus.R;
 
 import com.facebook.Request;
@@ -48,22 +47,9 @@ public class FacebookLoginFragmentActivity extends FragmentActivity {
 								// deliver the result to close LoginActivity
 								Intent returnIntent = new Intent();
 								returnIntent.putExtra(LoginActivity.EXTRA_FACEBOOK, LoginActivity.FACEBOOK_SUCCESS);
+								returnIntent.putExtra(LoginActivity.EXTRA_USER_ID,  user.getName());
 								setResult(RESULT_OK, returnIntent);
 
-								// Uses the name of the facebook to the next activity
-								Intent openBorrow = new Intent(FacebookLoginFragmentActivity.this, MenuActivity.class);
-								openBorrow.putExtra(LoginActivity.EXTRA_USER_ID, user.getName());
-								startActivity(openBorrow);
-
-								// time to see the picture...
-								try {
-									Thread.sleep(2000);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								// closes both login and facebook login
-								finish();
 							}
 						}
 					});

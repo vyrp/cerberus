@@ -137,8 +137,13 @@ public class LoginActivity extends Activity implements NetworkResponse {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == FACEBOOK_REQUEST && data != null) {
 			int value = data.getIntExtra(EXTRA_FACEBOOK, 0);
-			if (value == FACEBOOK_SUCCESS)
+			if (value == FACEBOOK_SUCCESS){
+				// Uses the name of the facebook to the next activity
+				Intent openBorrow = new Intent(LoginActivity.this, MenuActivity.class);
+				openBorrow.putExtra(LoginActivity.EXTRA_USER_ID,data.getStringExtra(LoginActivity.EXTRA_USER_ID));
+				startActivity(openBorrow);
 				finish();
+			}
 		}
 	}
 
