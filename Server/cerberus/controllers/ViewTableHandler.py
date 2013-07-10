@@ -1,4 +1,3 @@
-from google.appengine.api import users
 import webapp2
 import main
 from models.Device import Device
@@ -18,10 +17,9 @@ class ViewTableHandler(webapp2.RequestHandler):
         transactions = {}
         devices = Device.get_all()
         for device in devices:
-            transactions.update({device.name: convert_timestamps_to_dates(Transaction.query(ancestor=device.key).fetch())})
+            transactions.update({device.name: convert_timestamps_to_dates(Transaction.get_all(device))})
 
         values = {
-            "user": users.get_current_user() or "User",
             "transactions": transactions
         }
 
